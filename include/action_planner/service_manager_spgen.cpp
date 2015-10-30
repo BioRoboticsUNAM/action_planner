@@ -1,9 +1,5 @@
 #include "action_planner/service_manager.h"
 #include "bbros_bridge/Default_ROS_BB_Bridge.h"
-#include "ros/ros.h"
-#include "ros/console.h"
-#include "string.h"
-#include "std_msgs/String.h"
 
 /*
 *	Implements an asynchronous call to the voice generator to play a voice message

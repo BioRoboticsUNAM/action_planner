@@ -2,6 +2,9 @@
 #define ACT_PLN_CMD_MAN
 
 #include "std_msgs/String.h"
+#include "std_msgs/Float32.h"
+#include "ros/console.h"
+#include <string>
 
 class ServiceManager
 {
@@ -19,8 +22,8 @@ public:
 	/*
 	*	ARMS services callers
 	*/
-	bool armsOpenGrip();
-	bool armsCloseGrip();
+	bool armsOpenGrip(int, std_msgs::Float32);
+	bool armsCloseGrip(int, std_msgs::Float32);
 };
 
 #endif
