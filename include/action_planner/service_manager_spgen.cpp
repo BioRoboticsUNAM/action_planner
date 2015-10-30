@@ -3,6 +3,7 @@
 #include "ros/ros.h"
 #include "ros/console.h"
 #include "string.h"
+#include "std_msgs/String.h"
 
 /*
 *	Implements an asynchronous call to the voice generator to play a voice message
