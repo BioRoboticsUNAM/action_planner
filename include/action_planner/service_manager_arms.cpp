@@ -44,12 +44,12 @@ bool ServiceManager::armsOpenGrip(int side, std_msgs::Float32 position)
 *	Implements a synchronous call to the arms node to close a robot hand
 *	Receives:
 *		side : to indicate which side of the robot must perform the action
-*		position : the final closed position of the hand
+*		torque : indicates the torque of the closing action
 *	Return:
 *		true : if the robot hand was closed
 *		false : otherwise
 */
-bool ServiceManager::armsCloseGrip(int side, std_msgs::Float32 position)
+bool ServiceManager::armsCloseGrip(int side, std_msgs::Float32 torque)
 {
 	std::string service_name;
 	/*
@@ -64,16 +64,16 @@ bool ServiceManager::armsCloseGrip(int side, std_msgs::Float32 position)
 	ros::ServiceClient client = n.serviceClient<arms::arm_closegrip>(service_name);	//create the service caller
 
 	arms::arm_closegrip srv;	//create the service and fill it with the parameters
-	srv.request.position = position;
+	srv.request.torque = torque;
 
 	if(client.call(srv))	//call the service with the parameters contained in srv
 	{
-		ROS_DEBUG_STREAM_NAMED("action_planner", service_name << " service called successfully with parameters: " << position);
+		ROS_DEBUG_STREAM_NAMED("action_planner", service_name << " service called successfully with parameters: " << torque);
 		return true;
 	}
 	else
 	{
-		ROS_ERROR_STREAM_NAMED("action_planner", "an error acurred when trying to call the " << service_name << " service with parameters: " << position);
+		ROS_ERROR_STREAM_NAMED("action_planner", "an error acurred when trying to call the " << service_name << " service with parameters: " << torque);
 	}
 	return false;
 }
