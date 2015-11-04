@@ -5,6 +5,7 @@
 #include "std_msgs/String.h"
 #include "std_msgs/Float32.h"
 #include "std_msgs/Bool.h"
+#include "visualization_msgs/MarkerArray.h"
 #include "ros/console.h"
 #include "ros/ros.h"
 #include <string>
@@ -44,6 +45,11 @@ public:
 	*/
 	bool hdLookAt(std_msgs::Float32, std_msgs::Float32);
 	bool hdTorque(std_msgs::Bool);
+
+	/*
+	*	VISION services callers
+	*/
+	bool vsnFindOnPlanes(std_msgs::String, visualization_msgs::MarkerArray&);
 };
 
 #endif
