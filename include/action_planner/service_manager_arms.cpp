@@ -1,7 +1,7 @@
 #include "action_planner/service_manager.h"
 #include "arms/arm_opengrip.h"
 #include "arms/arm_closegrip.h"
-#include "arms/arm_abspos.h"
+#include "arms/arm_abspos_xyzrpye.h"
 #include "arms/arm_goto.h"
 
 /*
@@ -106,7 +106,7 @@ bool ServiceManager::armsCloseGrip(RobotKnowledge::ARMS_KNOWLEDGE side, std_msgs
 *		true : if the robot arm reach the location
 *		false : otherwise
 */
-bool ServiceManager::armsAbsPos(RobotKnowledge::ARMS_KNOWLEDGE, std_msgs::Float32 x, std_msgs::Float32 y,
+bool ServiceManager::armsAbsPos(RobotKnowledge::ARMS_KNOWLEDGE side, std_msgs::Float32 x, std_msgs::Float32 y,
 	std_msgs::Float32 z, std_msgs::Float32 roll, std_msgs::Float32 pitch, std_msgs::Float32 yaw, std_msgs::Float32 elbow)
 {
 	std::string service_name;
@@ -125,9 +125,9 @@ bool ServiceManager::armsAbsPos(RobotKnowledge::ARMS_KNOWLEDGE, std_msgs::Float3
 	}
 
 	ros::NodeHandle n;
-	ros::ServiceClient client = n.serviceClient<arms::arm_abspos>(service_name);	//create the service caller
+	ros::ServiceClient client = n.serviceClient<arms::arm_abspos_xyzrpye>(service_name);	//create the service caller
 
-	arms::arm_abspos srv;	//create the service and fill it with the parameters
+	arms::arm_abspos_xyzrpye srv;	//create the service and fill it with the parameters
 	srv.request.goalX = x;
 	srv.request.goalY = y;
 	srv.request.goalZ = z;
