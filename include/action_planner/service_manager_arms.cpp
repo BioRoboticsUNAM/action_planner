@@ -55,7 +55,7 @@ bool ServiceManager::armsOpenGrip(RobotKnowledge::ARMS_KNOWLEDGE side, std_msgs:
 *		true : if the robot hand was closed
 *		false : otherwise
 */
-bool ServiceManager::armsCloseGrip(int side, std_msgs::Float32 torque)
+bool ServiceManager::armsCloseGrip(RobotKnowledge::ARMS_KNOWLEDGE, std_msgs::Float32 torque)
 {
 	std::string service_name;
 
