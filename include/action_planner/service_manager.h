@@ -26,6 +26,8 @@ public:
 	*/
 	bool armsOpenGrip(int, std_msgs::Float32);
 	bool armsCloseGrip(int, std_msgs::Float32);
+	bool armsAbsPos(int, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32);
+	bool armsGoTo(int, std_msgs::String);
 
 	/*
 	*	MVNPLN services callers
