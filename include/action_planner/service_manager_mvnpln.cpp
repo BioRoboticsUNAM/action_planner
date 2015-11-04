@@ -144,7 +144,7 @@ bool ServiceManager::mpMove(std_msgs::Float32 distance, std_msgs::Float32 &trave
 *		true : if the robot performs correctly the move action
 *		false : otherwise
 */
-bool ServiceManager::mpMove(std_msgs::Float32 bearing, std_msgs::Float32 distance, std_msgs::Float32 &traveledBearing, std_msgs::Float32 &traveledDistance);
+bool ServiceManager::mpMove(std_msgs::Float32 bearing, std_msgs::Float32 distance, std_msgs::Float32 &traveledBearing, std_msgs::Float32 &traveledDistance)
 {
 	std::string service_name ("/mp_move_dist_angle");
 	ros::NodeHandle n;
