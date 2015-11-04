@@ -25,6 +25,7 @@ public:
 	/*
 	*	ARMS services callers
 	*/
+	bool armsOpenGrip(RobotKnowledge::ARMS_KNOWLEDGE, std_msgs::Float32);
 	bool armsOpenGrip(int, std_msgs::Float32);
 	bool armsCloseGrip(int, std_msgs::Float32);
 	bool armsAbsPos(int, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32);
