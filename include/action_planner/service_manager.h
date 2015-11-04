@@ -1,6 +1,7 @@
 #ifndef ACT_PLN_SRV_MAN
 #define ACT_PLN_SRV_MAN
 
+#include "action_planner/robot_knowledge.h"
 #include "std_msgs/String.h"
 #include "std_msgs/Float32.h"
 #include "std_msgs/Bool.h"
