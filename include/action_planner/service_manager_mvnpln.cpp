@@ -122,13 +122,13 @@ bool ServiceManager::mpMove(std_msgs::Float32 distance, std_msgs::Float32 &trave
 	if(client.call(srv))	//call the service with the parameters contained in srv
 	{
 		ROS_DEBUG_STREAM_NAMED("action_planner", service_name << " service called successfully with parameters: " << distance);
-		*traveledDistance = srv.response.traveledDistance;
+		traveledDistance = srv.response.traveledDistance;
 		return true;
 	}
 	else
 	{
 		ROS_ERROR_STREAM_NAMED("action_planner", "an error acurred when trying to call the " << service_name << " service with parameters: " << distance);
-		*traveledDistance = srv.response.traveledDistance;
+		traveledDistance = srv.response.traveledDistance;
 	}
 	return false;
 }
@@ -157,15 +157,15 @@ bool ServiceManager::mpMove(std_msgs::Float32 bearing, std_msgs::Float32 distanc
 	if(client.call(srv))	//call the service with the parameters contained in srv
 	{
 		ROS_DEBUG_STREAM_NAMED("action_planner", service_name << " service called successfully with parameters (bearing, distance) = (" << bearing << ", " << distance << ")");
-		*traveledBearing = srv.response.traveledBearing;
-		*traveledDistance = srv.response.traveledDistance;
+		traveledBearing = srv.response.traveledBearing;
+		traveledDistance = srv.response.traveledDistance;
 		return true;
 	}
 	else
 	{
 		ROS_ERROR_STREAM_NAMED("action_planner", "an error acurred when trying to call the " << service_name << " service with parameters (bearing, distance) = (" << bearing << ", " << distance << ")");
-		*traveledBearing = srv.response.traveledBearing;
-		*traveledDistance = srv.response.traveledDistance;
+		traveledBearing = srv.response.traveledBearing;
+		traveledDistance = srv.response.traveledDistance;
 	}
 	return false;
 }
