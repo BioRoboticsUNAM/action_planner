@@ -11,16 +11,22 @@
 *		true : if the robot hand was open
 *		false : otherwise
 */
-bool ServiceManager::armsOpenGrip(int side, std_msgs::Float32 position)
+bool ServiceManager::armsOpenGrip(RobotKnowledge::ARMS_KNOWLEDGE side, std_msgs::Float32 position)
 {
 	std::string service_name;
-	/*
-	TODO: use the robot description class 
-	*/
-	if(side==0)
-		service_name = "/la_opengrip";
-	else
-		service_name = "/ra_opengrip";
+
+	switch(side)
+	{
+		case RobotKnowledge::LeftArm:
+			service_name = "/la_opengrip";
+			break;
+		case RobotKnowledge::RighArm:
+			service_name = "/ra_opengrip";
+			break;
+		default:
+			service_name = "/la_opengrip";
+			break;
+	}
 
 	ros::NodeHandle n;
 	ros::ServiceClient client = n.serviceClient<arms::arm_opengrip>(service_name);	//create the service caller
@@ -52,13 +58,19 @@ bool ServiceManager::armsOpenGrip(int side, std_msgs::Float32 position)
 bool ServiceManager::armsCloseGrip(int side, std_msgs::Float32 torque)
 {
 	std::string service_name;
-	/*
-	TODO: use the robot description class 
-	*/
-	if(side==0)
-		service_name = "/la_closegrip";
-	else
-		service_name = "/ra_closegrip";
+
+	switch(side)
+	{
+		case RobotKnowledge::LeftArm:
+			service_name = "/la_closegrip";
+			break;
+		case RobotKnowledge::RighArm:
+			service_name = "/ra_closegrip";
+			break;
+		default:
+			service_name = "/la_closegrip";
+			break;
+	}
 
 	ros::NodeHandle n;
 	ros::ServiceClient client = n.serviceClient<arms::arm_closegrip>(service_name);	//create the service caller

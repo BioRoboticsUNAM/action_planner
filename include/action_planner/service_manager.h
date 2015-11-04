@@ -26,10 +26,9 @@ public:
 	*	ARMS services callers
 	*/
 	bool armsOpenGrip(RobotKnowledge::ARMS_KNOWLEDGE, std_msgs::Float32);
-	bool armsOpenGrip(int, std_msgs::Float32);
-	bool armsCloseGrip(int, std_msgs::Float32);
-	bool armsAbsPos(int, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32);
-	bool armsGoTo(int, std_msgs::String);
+	bool armsCloseGrip(RobotKnowledge::ARMS_KNOWLEDGE, std_msgs::Float32);
+	bool armsAbsPos(RobotKnowledge::ARMS_KNOWLEDGE, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32);
+	bool armsGoTo(RobotKnowledge::ARMS_KNOWLEDGE, std_msgs::String);
 
 	/*
 	*	MVNPLN services callers
