@@ -33,6 +33,8 @@ public:
 	bool mpGetClose(std_msgs::String);
 	bool mpGetClose(std_msgs::Float32, std_msgs::Float32);
 	bool mpGetClose(std_msgs::Float32, std_msgs::Float32, std_msgs::Float32);
+	bool mpMove(std_msgs::Float32, std_msgs::Float32&);
+	bool mpMove(std_msgs::Float32, std_msgs::Float32, std_msgs::Float32&, std_msgs::Float32&);
 
 	/*
 	*	HEAD services callers
