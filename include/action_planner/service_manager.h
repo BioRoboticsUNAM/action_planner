@@ -1,5 +1,5 @@
-#ifndef ACT_PLN_CMD_MAN
-#define ACT_PLN_CMD_MAN
+#ifndef ACT_PLN_SRV_MAN
+#define ACT_PLN_SRV_MAN
 
 #include "std_msgs/String.h"
 #include "std_msgs/Float32.h"
@@ -25,6 +25,19 @@ public:
 	*/
 	bool armsOpenGrip(int, std_msgs::Float32);
 	bool armsCloseGrip(int, std_msgs::Float32);
+
+	/*
+	*	MVNPLN services callers
+	*/
+	bool mpGetClose(std_msgs::String);
+	bool mpGetClose(std_msgs::Float32, std_msgs::Float32);
+	bool mpGetClose(std_msgs::Float32, std_msgs::Float32, std_msgs::Float32);
+
+	/*
+	*	HEAD services callers
+	*/
+	bool hdLookAt(std_msgs::Float32, std_msgs::Float32);
+	bool hdTorque(std_msgs::Bool);
 };
 
 #endif
