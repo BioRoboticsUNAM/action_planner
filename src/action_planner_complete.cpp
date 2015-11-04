@@ -18,12 +18,24 @@ int main(int argc, char** argv)
 
 	ServiceManager cmd_man;
 	
-	std_msgs::String str;
-	str.data = "hello from roscpp";
-	cmd_man.spgenSay(str, 20);
-	std_msgs::Float32 torque;
-	torque.data = 0.0;
-	cmd_man.armsCloseGrip(RobotKnowledge::LeftArm, torque);
+	//std_msgs::String str;
+	//str.data = "hello from roscpp";
+	//cmd_man.spgenSay(str, 20);
+	std_msgs::Float32 distance,angle, ang, dist;
+	distance.data=0.1;
+	angle.data=0.5;
+	std_msgs::String object;
+	visualization_msgs::MarkerArray rec;
+	object.data = "objects";
 
+	//TODO: test following
+	//cmd_man.mpGetClose(std_msgs::String);
+	//cmd_man.mpGetClose(std_msgs::Float32, std_msgs::Float32);
+	//cmd_man.mpGetClose(std_msgs::Float32, std_msgs::Float32, std_msgs::Float32);
+
+	//cmd_man.hdLookAt(distance, angle);
+	//bool hdTorque(std_msgs::Bool);
+	cmd_man.vsnFindOnPlanes(object, rec);
+	std::cout << rec;
 	return 0;
 }
