@@ -30,7 +30,7 @@ bool ServiceManager::mpGetClose(std_msgs::String location)
 		ROS_ERROR_STREAM_NAMED("action_planner", "an error acurred when trying to call the " << service_name << " service with parameters: " << location);
 		ROS_ERROR_STREAM_NAMED("action_planner", "Error message received from " << service_name << " : " << srv.response.error);
 	}
-	return false
+	return false;
 }
 
 /*
@@ -62,7 +62,7 @@ bool ServiceManager::mpGetClose(std_msgs::Float32 goalX, std_msgs::Float32 goalY
 		ROS_ERROR_STREAM_NAMED("action_planner", "an error acurred when trying to call the " << service_name << " service with parameters: " << goalX << " " << goalY);
 		ROS_ERROR_STREAM_NAMED("action_planner", "Error message received from " << service_name << " : " << srv.response.error);
 	}
-	return false
+	return false;
 }
 
 /*
@@ -96,6 +96,6 @@ bool ServiceManager::mpGetClose(std_msgs::Float32 goalX, std_msgs::Float32 goalY
 		ROS_ERROR_STREAM_NAMED("action_planner", "an error acurred when trying to call the " << service_name << " service with parameters: " << goalX << " " << goalY << " " << goalAngle);
 		ROS_ERROR_STREAM_NAMED("action_planner", "Error message received from " << service_name << " : " << srv.response.error);
 	}
-	return false
+	return false;
 }
 
