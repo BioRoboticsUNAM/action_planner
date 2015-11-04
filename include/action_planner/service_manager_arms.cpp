@@ -20,7 +20,7 @@ bool ServiceManager::armsOpenGrip(RobotKnowledge::ARMS_KNOWLEDGE side, std_msgs:
 		case RobotKnowledge::LeftArm:
 			service_name = "/la_opengrip";
 			break;
-		case RobotKnowledge::RighArm:
+		case RobotKnowledge::RightArm:
 			service_name = "/ra_opengrip";
 			break;
 		default:
@@ -64,7 +64,7 @@ bool ServiceManager::armsCloseGrip(int side, std_msgs::Float32 torque)
 		case RobotKnowledge::LeftArm:
 			service_name = "/la_closegrip";
 			break;
-		case RobotKnowledge::RighArm:
+		case RobotKnowledge::RightArm:
 			service_name = "/ra_closegrip";
 			break;
 		default:
