@@ -11,7 +11,7 @@ public:
 	{
 		LeftArm,
 		RightArm
-	}
+	};
 };
 
 #endif
