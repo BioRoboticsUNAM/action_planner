@@ -1,3 +1,4 @@
+#include "action_planner/robot_knowledge.h"
 #include "action_planner/service_manager.h"
 #include "ros/ros.h"
 #include "std_msgs/String.h"
@@ -22,7 +23,7 @@ int main(int argc, char** argv)
 	cmd_man.spgenSay(str, 20);
 	std_msgs::Float32 torque;
 	torque.data = 0.0;
-	cmd_man.armsCloseGrip(0, torque);
+	cmd_man.armsCloseGrip(RobotKnowledge::LeftArm, torque);
 
 	return 0;
 }
