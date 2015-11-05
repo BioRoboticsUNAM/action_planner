@@ -26,7 +26,10 @@ geometry_msgs::Point PrimitivesTasks::transRobotToArm(geometry_msgs::Point robot
 bool PrimitivesTasks::takeObject(std::string objectName, RobotKnowledge::ARM_SIDE armSide)
 {
 	ServiceManager srv_man;
-	//TODO: move the head to -1
+	//move the head to -1
+	std_msgs::Float32 tilt, pan, cTilt, cPan;
+	tilt.data = -1, pan.data = 0.0;
+	srv_man.hdLookAt(pan, tilt, cPan, cTilt);
 
 	//use vision to find the object on the plane
 	std_msgs::String std_objectName;
@@ -84,4 +87,8 @@ bool PrimitivesTasks::takeObject(std::string objectName, RobotKnowledge::ARM_SID
 	//move the arm to std_by position
 	x.data = 0.2; y.data = 0.0; z.data = 0.0; roll.data = 0.0; pitch.data = 0.0; yaw.data = 1.57; elbow.data=0.0;
         srv_man.armsAbsPos(armSide, x, y, z, roll, pitch, yaw, elbow);
+
+	//retrun head to 0 retrun head to 0 0
+	tilt.data = 0.0, pan.data = 0.0;
+	srv_man.hdLookAt(pan, tilt, cPan, cTilt);
 }
