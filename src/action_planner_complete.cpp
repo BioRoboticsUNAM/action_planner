@@ -18,24 +18,20 @@ int main(int argc, char** argv)
 
 	ServiceManager cmd_man;
 	
-	//std_msgs::String str;
-	//str.data = "hello from roscpp";
-	//cmd_man.spgenSay(str, 20);
-	std_msgs::Float32 distance,angle, ang, dist;
-	distance.data=0.1;
-	angle.data=0.5;
-	std_msgs::String object;
-	visualization_msgs::MarkerArray rec;
-	object.data = "objects";
+	std_msgs::String str;
+	str.data = "hello from roscpp";
+
+	std::cout << "find human: " << cmd_man.prsfndFind("human", 5000) << std::endl;
+	std::cout << "remeber human: " << cmd_man.prsfndRemember("nonato", 5000) <<std::endl;
+	std::cout << "find nonato : " << cmd_man.prsfndFind("nonato", 3000) << std::endl;
+	std::cout << "amnesia: " << cmd_man.prsfndAmnesia(3000);
 
 	//TODO: test following
 	//cmd_man.mpGetClose(std_msgs::String);
 	//cmd_man.mpGetClose(std_msgs::Float32, std_msgs::Float32);
 	//cmd_man.mpGetClose(std_msgs::Float32, std_msgs::Float32, std_msgs::Float32);
-
 	//cmd_man.hdLookAt(distance, angle);
 	//bool hdTorque(std_msgs::Bool);
-	cmd_man.vsnFindOnPlanes(object, rec);
-	std::cout << rec;
+
 	return 0;
 }

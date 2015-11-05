@@ -56,8 +56,7 @@ public:
 	*/
 	bool prsfndFind(std::string, int);
 	bool prsfndRemember(std::string, int);
-	bool prsfndAmnesia(std::string, int);
-	bool prsfndForget(std::string, int);
+	bool prsfndAmnesia(int);
 };
 
 #endif
