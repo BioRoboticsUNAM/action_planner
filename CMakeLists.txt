@@ -136,6 +136,7 @@ add_executable(
 	include/action_planner/service_manager_arms.cpp
 	include/action_planner/service_manager_mvnpln.cpp
 	include/action_planner/service_manager_vision.cpp
+	include/action_planner/service_manager_head.cpp
 )
 ## Specify libraries to link a library or executable target against
 target_link_libraries(action_planner_complete

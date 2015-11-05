@@ -43,7 +43,7 @@ public:
 	/*
 	*	HEAD services callers
 	*/
-	bool hdLookAt(std_msgs::Float32, std_msgs::Float32);
+	bool hdLookAt(std_msgs::Float32, std_msgs::Float32, std_msgs::Float32&, std_msgs::Float32&);
 	bool hdTorque(std_msgs::Bool);
 
 	/*
