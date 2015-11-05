@@ -50,6 +50,14 @@ public:
 	*	VISION services callers
 	*/
 	bool vsnFindOnPlanes(std_msgs::String, visualization_msgs::MarkerArray&);
+
+	/*
+	*	PRS-FND services callers
+	*/
+	bool prsfndFind(std::string, int);
+	bool prsfndRemember(std::string, int);
+	bool prsfndAmnesia(std::string, int);
+	bool prsfndForget(std::string, int);
 };
 
 #endif
