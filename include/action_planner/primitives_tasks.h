@@ -4,9 +4,12 @@
 #include "action_planner/robot_knowledge.h"
 #include "geometry_msgs/Point.h"
 #include "std_msgs/String.h"
+#include "std_msgs/Float32.h"
 #include "action_planner/service_manager.h"
 #include "visualization_msgs/MarkerArray.h"
 #include <string>
+#include <limits>
+#include <math.h>
 
 class PrimitivesTasks
 {
