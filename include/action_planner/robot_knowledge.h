@@ -7,7 +7,7 @@ public:
 	/*
 	* Robot ARMS Constants
 	*/
-	enum ARMS_KNOWLEDGE
+	enum ARM_SIDE
 	{
 		LeftArm,
 		RightArm

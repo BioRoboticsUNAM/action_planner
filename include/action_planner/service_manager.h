@@ -26,10 +26,10 @@ public:
 	/*
 	*	ARMS services callers
 	*/
-	bool armsOpenGrip(RobotKnowledge::ARMS_KNOWLEDGE, std_msgs::Float32);
-	bool armsCloseGrip(RobotKnowledge::ARMS_KNOWLEDGE, std_msgs::Float32);
-	bool armsAbsPos(RobotKnowledge::ARMS_KNOWLEDGE, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32);
-	bool armsGoTo(RobotKnowledge::ARMS_KNOWLEDGE, std_msgs::String);
+	bool armsOpenGrip(RobotKnowledge::ARM_SIDE, std_msgs::Float32);
+	bool armsCloseGrip(RobotKnowledge::ARM_SIDE, std_msgs::Float32);
+	bool armsAbsPos(RobotKnowledge::ARM_SIDE, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32, std_msgs::Float32);
+	bool armsGoTo(RobotKnowledge::ARM_SIDE, std_msgs::String);
 
 	/*
 	*	MVNPLN services callers

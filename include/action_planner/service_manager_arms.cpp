@@ -13,7 +13,7 @@
 *		true : if the robot hand was open
 *		false : otherwise
 */
-bool ServiceManager::armsOpenGrip(RobotKnowledge::ARMS_KNOWLEDGE side, std_msgs::Float32 position)
+bool ServiceManager::armsOpenGrip(RobotKnowledge::ARM_SIDE side, std_msgs::Float32 position)
 {
 	std::string service_name;
 
@@ -57,7 +57,7 @@ bool ServiceManager::armsOpenGrip(RobotKnowledge::ARMS_KNOWLEDGE side, std_msgs:
 *		true : if the robot hand was closed
 *		false : otherwise
 */
-bool ServiceManager::armsCloseGrip(RobotKnowledge::ARMS_KNOWLEDGE side, std_msgs::Float32 torque)
+bool ServiceManager::armsCloseGrip(RobotKnowledge::ARM_SIDE side, std_msgs::Float32 torque)
 {
 	std::string service_name;
 
@@ -106,7 +106,7 @@ bool ServiceManager::armsCloseGrip(RobotKnowledge::ARMS_KNOWLEDGE side, std_msgs
 *		true : if the robot arm reach the location
 *		false : otherwise
 */
-bool ServiceManager::armsAbsPos(RobotKnowledge::ARMS_KNOWLEDGE side, std_msgs::Float32 x, std_msgs::Float32 y,
+bool ServiceManager::armsAbsPos(RobotKnowledge::ARM_SIDE side, std_msgs::Float32 x, std_msgs::Float32 y,
 	std_msgs::Float32 z, std_msgs::Float32 roll, std_msgs::Float32 pitch, std_msgs::Float32 yaw, std_msgs::Float32 elbow)
 {
 	std::string service_name;
@@ -157,7 +157,7 @@ bool ServiceManager::armsAbsPos(RobotKnowledge::ARMS_KNOWLEDGE side, std_msgs::F
 *		true : if the robot arm reach the location
 *		false : otherwise
 */
-bool ServiceManager::armsGoTo(RobotKnowledge::ARMS_KNOWLEDGE side, std_msgs::String location)
+bool ServiceManager::armsGoTo(RobotKnowledge::ARM_SIDE side, std_msgs::String location)
 {
 	std::string service_name;
 
