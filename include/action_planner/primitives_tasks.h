@@ -2,7 +2,12 @@
 #define ACT_PLN_PRIM_TSKS
 
 #include "action_planner/robot_knowledge.h"
+#include "geometry_msgs/Point.h"
+#include "std_msgs/String.h"
+#include "action_planner/service_manager.h"
+#include "visualization_msgs/MarkerArray.h"
 #include <string>
+
 class PrimitivesTasks
 {
 public:
@@ -10,6 +15,7 @@ public:
 	* Take object primitives
 	*/
 	//bool takeObject(std::string objectName);
+	geometry_msgs::Point transRobotToArm(geometry_msgs::Point);
 	bool takeObject(std::string, RobotKnowledge::ARM_SIDE);
 };
 
