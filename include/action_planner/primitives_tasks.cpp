@@ -25,14 +25,25 @@ geometry_msgs::Point PrimitivesTasks::transRobotToArm(geometry_msgs::Point robot
 bool PrimitivesTasks::rememberHuman(std::string humanName)
 {
 	ServiceManager srv_man;
-	//TODO: play spgen messages
 	bool patternStored=false;
 	//get the human normal face
+	srv_man.spgenSay("Please look straightforward to my web camera.", 5000);
 	patternStored = srv_man.prsfndRemember(humanName, 5000);
 	//get the human happy face
+	srv_man.spgenSay("Human smile.", 5000);
 	patternStored = patternStored && srv_man.prsfndRemember(humanName, 5000);
 	//get the human serious face 
+	srv_man.spgenSay("Now, a serious face.", 5000);
 	patternStored = patternStored && srv_man.prsfndRemember(humanName, 5000);
+
+	if(!patternStored)
+	{
+		srv_man.spgenSay("Please relax your face and look to my webcamera.", 5000);
+		ros::Duration(1).sleep();
+		patternStored = srv_man.prsfndRemember(humanName, 5000);
+	}
+
+	srv_man.spgenSay("I have remembered your face.", 5000);
 
 	return patternStored;
 }

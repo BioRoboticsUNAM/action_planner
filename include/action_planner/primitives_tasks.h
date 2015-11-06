@@ -1,6 +1,7 @@
 #ifndef ACT_PLN_PRIM_TSKS
 #define ACT_PLN_PRIM_TSKS
 
+#include "ros/ros.h"
 #include "action_planner/robot_knowledge.h"
 #include "geometry_msgs/Point.h"
 #include "std_msgs/String.h"

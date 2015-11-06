@@ -6,14 +6,14 @@
 *	Receives:
 *		text_to_synthesize : the message to play
 */
-void ServiceManager::spgenAsay(std_msgs::String text_to_synthesize)
+void ServiceManager::spgenAsay(std::string text_to_synthesize)
 {
 	std::string service_name ("/spg_asay");
 	ros::NodeHandle n;
 	ros::ServiceClient client = n.serviceClient<bbros_bridge::Default_ROS_BB_Bridge>(service_name);	//create the service caller
 
 	bbros_bridge::Default_ROS_BB_Bridge srv;	//create the service and fill it with the parameters
-	srv.request.parameters = text_to_synthesize.data;
+	srv.request.parameters = text_to_synthesize;
 	srv.request.timeout = 0;
 
 	if(client.call(srv))	//call the service with the parameters contained in srv
@@ -35,14 +35,14 @@ void ServiceManager::spgenAsay(std_msgs::String text_to_synthesize)
 *		true : if the message was played
 *		false : otherwise
 */
-bool ServiceManager::spgenSay(std_msgs::String text_to_synthesize, int timeout)
+bool ServiceManager::spgenSay(std::string text_to_synthesize, int timeout)
 {
 	std::string service_name ("/spg_say");
 	ros::NodeHandle n;
 	ros::ServiceClient client = n.serviceClient<bbros_bridge::Default_ROS_BB_Bridge>(service_name);	//create the service caller
 
 	bbros_bridge::Default_ROS_BB_Bridge srv;	//create the service and fill it with the parameters
-	srv.request.parameters = text_to_synthesize.data;
+	srv.request.parameters = text_to_synthesize;
 	srv.request.timeout = timeout;
 
 	if(client.call(srv))	//call the service with the parameters contained in srv
