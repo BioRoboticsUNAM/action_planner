@@ -20,8 +20,8 @@ public:
 	/*
 	* SP-GEN services callers
 	*/
-	bool spgenSay(std_msgs::String, int);
-	void spgenAsay(std_msgs::String);
+	bool spgenSay(std::string, int);
+	void spgenAsay(std::string);
 
 	/*
 	*	ARMS services callers
