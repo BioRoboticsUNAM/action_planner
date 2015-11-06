@@ -18,11 +18,11 @@ void ServiceManager::spgenAsay(std::string text_to_synthesize)
 
 	if(client.call(srv))	//call the service with the parameters contained in srv
 	{
-		ROS_DEBUG_STREAM_NAMED("action_planner", service_name << " service called successfully with parameters: " << text_to_synthesize.data);
+		ROS_DEBUG_STREAM_NAMED("action_planner", service_name << " service called successfully with parameters: " << text_to_synthesize);
 	}
 	else
 	{
-		ROS_ERROR_STREAM_NAMED("action_planner", "an error acurred when trying to call the " << service_name << " service with parameters: " << text_to_synthesize.data);
+		ROS_ERROR_STREAM_NAMED("action_planner", "an error acurred when trying to call the " << service_name << " service with parameters: " << text_to_synthesize);
 	}
 }
 
@@ -47,12 +47,12 @@ bool ServiceManager::spgenSay(std::string text_to_synthesize, int timeout)
 
 	if(client.call(srv))	//call the service with the parameters contained in srv
 	{
-		ROS_DEBUG_STREAM_NAMED("action_planner", service_name << " service called successfully with parameters: " << text_to_synthesize.data);
+		ROS_DEBUG_STREAM_NAMED("action_planner", service_name << " service called successfully with parameters: " << text_to_synthesize);
 		return true;
 	}
 	else
 	{
-		ROS_ERROR_STREAM_NAMED("action_planner", "an error acurred when trying to call the " << service_name << " service with parameters: " << text_to_synthesize.data);
+		ROS_ERROR_STREAM_NAMED("action_planner", "an error acurred when trying to call the " << service_name << " service with parameters: " << text_to_synthesize);
 	}
 	return false;
 }
