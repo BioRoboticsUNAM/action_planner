@@ -18,6 +18,26 @@ geometry_msgs::Point PrimitivesTasks::transRobotToArm(geometry_msgs::Point robot
 }
 
 /*
+* Implements the remember human task, captures tree patters of a human face and gives it a name
+* 	Receives:
+*		humanName	:	the name of the human to remember
+*/
+bool PrimitivesTasks::rememberHuman(std::string humanName)
+{
+	ServiceManager srv_man;
+	//TODO: play spgen messages
+	bool patternStored=false;
+	//get the human normal face
+	patternStored = srv_man.prsfndRemember(humanName, 5000);
+	//get the human happy face
+	patternStored = patternStored && srv_man.prsfndRemember(humanName, 5000);
+	//get the human serious face 
+	patternStored = patternStored && srv_man.prsfndRemember(humanName, 5000);
+
+	return patternStored;
+}
+
+/*
 *	Implements the take specific object subtask 
 *	Receives:
 *		objectName	:	the name of the object to find
