@@ -91,13 +91,14 @@ bool PrimitivesTasks::takeObject(std::string objectName, RobotKnowledge::ARM_SID
 		double distanceToArm = sqrt(objectArmCoord.y+objectArmCoord.y + objectArmCoord.z*objectArmCoord.z);
 		if(distanceToArm < minDistance)
 		{
+			std::cout << "closest robot object: " << recognizedObjects.markers[i].pose.position << std::endl;
 			closestObjectArmCoord.x = objectArmCoord.x;
 			closestObjectArmCoord.y = objectArmCoord.y;
 			closestObjectArmCoord.z = objectArmCoord.z;
 			minDistance = distanceToArm;
 		}
 	}
-	
+	std::cout << "closest object arm coord: " << closestObjectArmCoord << std::endl;
 
 	//move the arm to the object point
 	std_msgs::Float32 x, y, z, roll, pitch, yaw, elbow, torque;

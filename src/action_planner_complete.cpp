@@ -1,5 +1,6 @@
 #include "action_planner/robot_knowledge.h"
 #include "action_planner/service_manager.h"
+#include "action_planner/primitives_tasks.h"
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "std_msgs/Float32.h"
@@ -17,7 +18,8 @@ int main(int argc, char** argv)
 	ros::init(argc, argv, "action_planner");
 
 	ServiceManager srv_man;
-	takeObject("objects", RobotKnowledge::LeftArm);
+	PrimitivesTasks pt;
+	std::cout << "take: " << pt.takeObject("objects", RobotKnowledge::LeftArm) << std::endl;
 	//bool rememberHuman(std::string);
 
 	//TODO: test following
