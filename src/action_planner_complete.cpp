@@ -16,15 +16,9 @@ int main(int argc, char** argv)
 {
 	ros::init(argc, argv, "action_planner");
 
-	ServiceManager cmd_man;
-	
-	std_msgs::String str;
-	str.data = "hello from roscpp";
-
-	std::cout << "find human: " << cmd_man.prsfndFind("human", 5000) << std::endl;
-	std::cout << "remeber human: " << cmd_man.prsfndRemember("nonato", 5000) <<std::endl;
-	std::cout << "find nonato : " << cmd_man.prsfndFind("nonato", 3000) << std::endl;
-	std::cout << "amnesia: " << cmd_man.prsfndAmnesia(3000);
+	ServiceManager srv_man;
+	takeObject("objects", RobotKnowledge::LeftArm);
+	//bool rememberHuman(std::string);
 
 	//TODO: test following
 	//cmd_man.mpGetClose(std_msgs::String);
