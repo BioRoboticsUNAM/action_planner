@@ -18,19 +18,15 @@ int main(int argc, char** argv)
 	ros::init(argc, argv, "action_planner");
 
 	//subscribe to the recognizedSpeech topic, the handler is in the recognized_sentences_handler.h library
-	ros::NodeHandle nh;
-	ros::Subscriber rs;
+	//ros::NodeHandle nh;
 	//ros::Subscriber ros_sub = nh.subscribe("recognizedSpeech", 100, RecognizedSentencesHandler::updateRecognizedSentences);
 
 	ServiceManager srv_man;
-	PrimitivesTasks pt(nh, rs);
+	PrimitivesTasks pt;
 	RobotKnowledge brain;
 
 	while(ros::ok())
 	{
-		std::string sentence;
-		pt.listen(sentence);
-		std::cout << sentence << std::endl;
 		//std::string sentence;
 		//std::cout << "start listening" << std::endl;
 		//std::deque<RecognizedSentencesHandler::recoSentenceTuple> reco = RecognizedSentencesHandler::listen(5000);

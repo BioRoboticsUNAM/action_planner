@@ -1,4 +1,23 @@
 #include "action_planner/primitives_tasks.h"
+#include "action_planner/recognized_sentences_handler.h"
+
+/*
+* Contructor
+*/
+PrimitivesTasks::PrimitivesTasks(ros::NodeHandle &nh, ros::Subscriber &sub)
+{
+	//subscribe to the recognizedSpeech topic, the handler is in the recognized_sentences_handler.h library
+	sub = nh.subscribe("recognizedSpeech", 100, RecognizedSentencesHandler::updateRecognizedSentences);
+}
+
+/*
+* TODO: Doc
+*/
+bool PrimitivesTasks::listen(std::string& recoSentence)
+{
+
+	return RecognizedSentencesHandler::listen(recoSentence, 5000);
+}
 
 /*
 * Transform a robot coordinate to a point coordinate
@@ -54,7 +73,7 @@ bool PrimitivesTasks::rememberHuman(std::string humanName)
 *		objectName	:	the name of the object to find
 *		armSide			:	the arm side to use to take the object
 */
-bool PrimitivesTasks::shearchAndTakeObject(std::string objectName, RobotKnowledge::ARM_SIDE armSide)
+bool PrimitivesTasks::searchAndTakeObject(std::string objectName, RobotKnowledge::ARM_SIDE armSide)
 {
 	ServiceManager srv_man;
 	//move the head to -1

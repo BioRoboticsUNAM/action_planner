@@ -15,12 +15,18 @@
 class PrimitivesTasks
 {
 public:
+	PrimitivesTasks(ros::NodeHandle&, ros::Subscriber&);
 	/*
 	* Take object primitives
 	*/
 	//bool takeObject(std::string objectName);
 	bool searchAndTakeObject(std::string, RobotKnowledge::ARM_SIDE);
 	bool rememberHuman(std::string);
+	
+	/*
+	* RecoSpeech primitives
+	*/
+	bool listen(std::string&);
 private:
 	geometry_msgs::Point transRobotToArm(geometry_msgs::Point);
 };
