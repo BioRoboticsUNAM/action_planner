@@ -54,7 +54,7 @@ bool PrimitivesTasks::rememberHuman(std::string humanName)
 *		objectName	:	the name of the object to find
 *		armSide			:	the arm side to use to take the object
 */
-bool PrimitivesTasks::takeObject(std::string objectName, RobotKnowledge::ARM_SIDE armSide)
+bool PrimitivesTasks::shearchAndTakeObject(std::string objectName, RobotKnowledge::ARM_SIDE armSide)
 {
 	ServiceManager srv_man;
 	//move the head to -1
@@ -91,21 +91,19 @@ bool PrimitivesTasks::takeObject(std::string objectName, RobotKnowledge::ARM_SID
 		double distanceToArm = sqrt(objectArmCoord.y+objectArmCoord.y + objectArmCoord.z*objectArmCoord.z);
 		if(distanceToArm < minDistance)
 		{
-			std::cout << "closest robot object: " << recognizedObjects.markers[i].pose.position << std::endl;
 			closestObjectArmCoord.x = objectArmCoord.x;
 			closestObjectArmCoord.y = objectArmCoord.y;
 			closestObjectArmCoord.z = objectArmCoord.z;
 			minDistance = distanceToArm;
 		}
 	}
-	std::cout << "closest object arm coord: " << closestObjectArmCoord << std::endl;
 
 	//move the arm to the object point
 	std_msgs::Float32 x, y, z, roll, pitch, yaw, elbow, torque;
 	torque.data = 0.0;
 	//move the arm to std_by position
 	x.data = 0.2; y.data = 0.0; z.data = 0.0; roll.data = 0.0; pitch.data = 0.0; yaw.data = 1.57; elbow.data=0.0;
-        srv_man.armsAbsPos(armSide, x, y, z, roll, pitch, yaw, elbow);
+  srv_man.armsAbsPos(armSide, x, y, z, roll, pitch, yaw, elbow);
 	//open the gripper
 	srv_man.armsOpenGrip(armSide, torque);
 	//move the arm to the object position
@@ -113,12 +111,12 @@ bool PrimitivesTasks::takeObject(std::string objectName, RobotKnowledge::ARM_SID
 	y.data = closestObjectArmCoord.y + 0.05; 
 	z.data = closestObjectArmCoord.z; 
 	roll.data = 0.0; pitch.data = 0.0; yaw.data = 1.57; elbow.data=0.0;
-        srv_man.armsAbsPos(armSide, x, y, z, roll, pitch, yaw, elbow);
+  srv_man.armsAbsPos(armSide, x, y, z, roll, pitch, yaw, elbow);
 	//close the gripper
-        srv_man.armsCloseGrip(armSide, torque);
+  srv_man.armsCloseGrip(armSide, torque);
 	//move the arm to std_by position
 	x.data = 0.2; y.data = 0.0; z.data = 0.0; roll.data = 0.0; pitch.data = 0.0; yaw.data = 1.57; elbow.data=0.0;
-        srv_man.armsAbsPos(armSide, x, y, z, roll, pitch, yaw, elbow);
+  srv_man.armsAbsPos(armSide, x, y, z, roll, pitch, yaw, elbow);
 
 	//retrun head to 0 retrun head to 0 0
 	tilt.data = 0.0, pan.data = 0.0;

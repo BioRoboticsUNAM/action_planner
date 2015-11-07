@@ -19,7 +19,10 @@ int main(int argc, char** argv)
 
 	ServiceManager srv_man;
 	PrimitivesTasks pt;
-	std::cout << "take: " << pt.takeObject("objects", RobotKnowledge::LeftArm) << std::endl;
+	RobotKnowledge brain;
+
+	ros::spin();
+	//std::cout << "take: " << pt.takeObject("objects", RobotKnowledge::LeftArm) << std::endl;
 	//bool rememberHuman(std::string);
 
 	//TODO: test following

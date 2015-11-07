@@ -19,9 +19,10 @@ public:
 	* Take object primitives
 	*/
 	//bool takeObject(std::string objectName);
-	geometry_msgs::Point transRobotToArm(geometry_msgs::Point);
-	bool takeObject(std::string, RobotKnowledge::ARM_SIDE);
+	bool searchAndTakeObject(std::string, RobotKnowledge::ARM_SIDE);
 	bool rememberHuman(std::string);
+private:
+	geometry_msgs::Point transRobotToArm(geometry_msgs::Point);
 };
 
 #endif
