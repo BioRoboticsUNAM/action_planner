@@ -55,7 +55,7 @@ RobotKnowledge::SM parseArgument(std::string taskName)
 int main(int argc, char** argv)
 {
 
-	if(!cmdOptionsExists(argv, argv+argc, "-h"))
+	if(!cmdOptionsExists(argv, argv+argc, "-t") || cmdOptionsExists(argv, argv+argc, "-h"))
 	{
 		printUsage();
 		return 0;
@@ -85,14 +85,19 @@ int main(int argc, char** argv)
 			//SM.navigation();
 			break;
 		case RobotKnowledge::Speech_FB:
+			//SM.speechUndSM();
 			break;
 		case RobotKnowledge::KnowHome_TB:
+			//SM.knowHomeSM();
 			break;
 		case RobotKnowledge::Welcoming_TB:
+			//SM.welcomingSM();
 			break;
 		case RobotKnowledge::GrannyAnnie_TB:
+			//SM.grannyAnnieSM();
 			break;
 		case RobotKnowledge::DefaultTest:
+			//SM.defaultSM();
 			break;
 		default:
 			std::cout << "Invalid Test selection." << std::endl;

@@ -1,16 +1,55 @@
 #include "action_planner/states_machines.h"
 
-StatesMachines::SM_STATUS StatesMachines::objectPerceptionSM()
+/*
+*	ADD THE STATES ID YOU NEED FOR EACH STATE FUNCTION (IF YOU WANT)
+*/
+enum States
 {
-	//configure sm
-	/*
-	sm_addstate(&funcpinter_initial) //initial state must be the first added state
-	sm_addstate(&funcpinter_search)
-	sm_addstate(&funcpinter_finalstate)
-	*/
-	//execute sm 
-	/*while(state!=finalstate)
-		execute next step;
-	*/
-	return StatesMachines::Succeeded;
+	InitialState,
+	DoSomethingState,
+	FinalState
+};
+/********************************************************************/
+
+/*
+*	ADD THE STATE FUNCTIONS YOU NEED
+*/
+int initialStateFunc()
+{
+	std::cout << "executing initial state" << std::endl;
+	return (int)DoSomethingState;
+}
+
+int doSomethingFunc()
+{
+	std::cout << "doing something state" << std::endl;
+	return (int)FinalState;
+}
+
+int finalStateFunc()
+{
+	std::cout << "finalState sreached" << std::endl;
+	return (int)FinalState;
+}
+
+/**********************************************************************/
+
+/*
+* A particular constructor for your state machine
+* Initialize your state machine here (add states, define the final state, define the execution method, etc)
+*/
+bool StatesMachines::objectPerceptionSM()
+{
+	//reset the states of the state machine
+	resetStates();
+
+	//add states to the state machine
+	addState((int)InitialState, initialStateFunc);
+	addState((int)DoSomethingState, doSomethingFunc);
+	addState((int)FinalState, finalStateFunc, true);
+
+	//execute the state machine from the initial state until the final state
+	while(runNextStep());
+
+	return true;
 }

@@ -141,6 +141,7 @@ add_executable(
 	include/action_planner/primitives_tasks.cpp
 	include/action_planner/robot_knowledge.cpp
 	include/action_planner/object_perception.cpp
+	include/action_planner/states_machines.cpp
 )
 ## Specify libraries to link a library or executable target against
 target_link_libraries(action_planner_complete
