@@ -82,22 +82,22 @@ int main(int argc, char** argv)
 			SM.objectPerceptionSM();
 			break;
 		case RobotKnowledge::Navigation_FB:
-			//SM.navigation();
+			SM.navigationSM();
 			break;
 		case RobotKnowledge::Speech_FB:
-			//SM.speechUndSM();
+			SM.speechUnderstandingSM();
 			break;
 		case RobotKnowledge::KnowHome_TB:
-			//SM.knowHomeSM();
+			SM.knowHomeSM();
 			break;
 		case RobotKnowledge::Welcoming_TB:
-			//SM.welcomingSM();
+			SM.welcomingSM();
 			break;
 		case RobotKnowledge::GrannyAnnie_TB:
-			//SM.grannyAnnieSM();
+			SM.grannyAnnieSM();
 			break;
 		case RobotKnowledge::DefaultTest:
-			//SM.defaultSM();
+			SM.defaultSM();
 			break;
 		default:
 			std::cout << "Invalid Test selection." << std::endl;

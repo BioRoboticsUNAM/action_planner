@@ -1,6 +1,6 @@
 #include "action_planner/states_machines.h"
 
-namespace ObjectPerception
+namespace NavigationSM
 {
 	/*
 	*	ADD THE STATES ID YOU NEED FOR EACH STATE FUNCTION (IF YOU WANT)
@@ -41,15 +41,15 @@ namespace ObjectPerception
 * A particular constructor for your state machine
 * Initialize your state machine here (add states, define the final state, define the execution method, etc)
 */
-bool StatesMachines::objectPerceptionSM()
+bool StatesMachines::navigationSM()
 {
 	//reset the states of the state machine
 	resetStates();
 
 	//add states to the state machine
-	addState((int)ObjectPerception::InitialState, ObjectPerception::initialStateFunc);
-	addState((int)ObjectPerception::DoSomethingState, ObjectPerception::doSomethingFunc);
-	addState((int)ObjectPerception::FinalState, ObjectPerception::finalStateFunc, true);
+	addState((int)NavigationSM::InitialState, NavigationSM::initialStateFunc);
+	addState((int)NavigationSM::DoSomethingState, NavigationSM::doSomethingFunc);
+	addState((int)NavigationSM::FinalState, NavigationSM::finalStateFunc, true);
 
 	//execute the state machine from the initial state until the final state
 	while(runNextStep());

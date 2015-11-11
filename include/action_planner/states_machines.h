@@ -26,7 +26,14 @@ public:
 	//variable to know the current status of the SM
 	//SM_STATUS currentSMStatus;
 	
+	//the SM methods
 	bool objectPerceptionSM();
+	bool navigationSM();
+	bool speechUnderstandingSM();
+	bool grannyAnnieSM();
+	bool knowHomeSM();
+	bool welcomingSM();
+	bool defaultSM();
 private:
 	//dictionary to store the states of the sm to execute
 	std::map<int, fncPtr> statesDictionary;
