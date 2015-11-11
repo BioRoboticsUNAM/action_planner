@@ -15,6 +15,20 @@ public:
 		RightArm
 	};
 
+	/*
+	* Robot Tests
+	*/
+	enum SM
+	{
+		Perception_FB,
+		Navigation_FB,
+		Speech_FB,
+		KnowHome_TB,
+		Welcoming_TB,
+		GrannyAnnie_TB,
+		DefaultTest
+	};
+
 
 	//RobotKnowledge();
 private:

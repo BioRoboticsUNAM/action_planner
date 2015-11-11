@@ -122,7 +122,7 @@ bool PrimitivesTasks::searchAndTakeObject(std::string objectName, RobotKnowledge
 	torque.data = 0.0;
 	//move the arm to std_by position
 	x.data = 0.2; y.data = 0.0; z.data = 0.0; roll.data = 0.0; pitch.data = 0.0; yaw.data = 1.57; elbow.data=0.0;
-  srv_man.armsAbsPos(armSide, x, y, z, roll, pitch, yaw, elbow);
+  	srv_man.armsAbsPos(armSide, x, y, z, roll, pitch, yaw, elbow);
 	//open the gripper
 	srv_man.armsOpenGrip(armSide, torque);
 	//move the arm to the object position
@@ -130,12 +130,12 @@ bool PrimitivesTasks::searchAndTakeObject(std::string objectName, RobotKnowledge
 	y.data = closestObjectArmCoord.y + 0.05; 
 	z.data = closestObjectArmCoord.z; 
 	roll.data = 0.0; pitch.data = 0.0; yaw.data = 1.57; elbow.data=0.0;
-  srv_man.armsAbsPos(armSide, x, y, z, roll, pitch, yaw, elbow);
+  	srv_man.armsAbsPos(armSide, x, y, z, roll, pitch, yaw, elbow);
 	//close the gripper
-  srv_man.armsCloseGrip(armSide, torque);
+  	srv_man.armsCloseGrip(armSide, torque);
 	//move the arm to std_by position
 	x.data = 0.2; y.data = 0.0; z.data = 0.0; roll.data = 0.0; pitch.data = 0.0; yaw.data = 1.57; elbow.data=0.0;
-  srv_man.armsAbsPos(armSide, x, y, z, roll, pitch, yaw, elbow);
+  	srv_man.armsAbsPos(armSide, x, y, z, roll, pitch, yaw, elbow);
 
 	//retrun head to 0 retrun head to 0 0
 	tilt.data = 0.0, pan.data = 0.0;
