@@ -141,7 +141,6 @@ add_executable(
 	include/action_planner/primitives_tasks.cpp
 	include/action_planner/robot_knowledge.cpp
 	include/action_planner/states_machines.cpp
-	include/action_planner/object_perception.cpp
 	include/action_planner/navigation_sm.cpp
 	include/action_planner/speech_understanding_sm.cpp
 	include/action_planner/granny_annie_sm.cpp

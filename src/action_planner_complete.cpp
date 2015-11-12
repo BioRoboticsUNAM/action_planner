@@ -1,4 +1,5 @@
-#include "action_planner/states_machines.h"
+#include "action_planner/object_perception.h"
+//#include "action_planner/states_machines.h"
 #include "action_planner/robot_knowledge.h"
 #include "action_planner/service_manager.h"
 #include "action_planner/primitives_tasks.h"
@@ -71,33 +72,34 @@ int main(int argc, char** argv)
 
 	//Set up ACT_PLN env
 	ServiceManager srv_man;
-	PrimitivesTasks pt(nh, rs);	//pass the nodeHandler and Subscriber to suscribe to the recospeech topic
+	//PrimitivesTasks pt(nh, rs);	//pass the nodeHandler and Subscriber to suscribe to the recospeech topic
 	RobotKnowledge know;
-	StatesMachines SM;
+	//StatesMachines SM;
 
+	ObjectPerceptionSM objSM(nh, rs);
 	//Execute the selected test
 	switch(testToExecute)
 	{
 		case RobotKnowledge::Perception_FB:
-			SM.objectPerceptionSM();
+			objSM.execute();
 			break;
 		case RobotKnowledge::Navigation_FB:
-			SM.navigationSM();
+			//SM.navigationSM();
 			break;
 		case RobotKnowledge::Speech_FB:
-			SM.speechUnderstandingSM();
+			//SM.speechUnderstandingSM();
 			break;
 		case RobotKnowledge::KnowHome_TB:
-			SM.knowHomeSM();
+			//SM.knowHomeSM();
 			break;
 		case RobotKnowledge::Welcoming_TB:
-			SM.welcomingSM();
+			//SM.welcomingSM();
 			break;
 		case RobotKnowledge::GrannyAnnie_TB:
-			SM.grannyAnnieSM();
+			//SM.grannyAnnieSM();
 			break;
 		case RobotKnowledge::DefaultTest:
-			SM.defaultSM();
+			//SM.defaultSM();
 			break;
 		default:
 			std::cout << "Invalid Test selection." << std::endl;

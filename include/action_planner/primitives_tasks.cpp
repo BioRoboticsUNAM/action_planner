@@ -57,7 +57,7 @@ bool PrimitivesTasks::rememberHuman(std::string humanName)
 
 	if(!patternStored)
 	{
-		srv_man.spgenSay("Please relax your face and look to my webcamera.", 5000);
+		srv_man.spgenSay("Please relax your face and look to my web camera.", 5000);
 		ros::Duration(1).sleep();
 		patternStored = srv_man.prsfndRemember(humanName, 5000);
 	}
@@ -65,6 +65,55 @@ bool PrimitivesTasks::rememberHuman(std::string humanName)
 	srv_man.spgenSay("I have remembered your face.", 5000);
 
 	return patternStored;
+}
+
+/*
+* Search an specific object in the objects-scene
+* Receives:
+*	objectName: the name of the object to search
+* Returns:
+*	true if the object is in the scene, false otherwise
+*/
+bool PrimitivesTasks::searchObject(std::string objectName, visualization_msgs::Marker &objectFound)
+{
+	ServiceManager srv_man;
+	
+	//move the head to -1
+	std_msgs::Float32 tilt, pan, cTilt, cPan;
+	tilt.data = -1, pan.data = 0.0;
+	srv_man.hdLookAt(pan, tilt, cPan, cTilt);
+
+	///use vision to find the object on the plane
+	std_msgs::String std_objectName;
+	std_objectName.data = "objects";	//send objects as param in order to find all the objects in the scene
+	visualization_msgs::MarkerArray foundObjects;
+
+	if(!srv_man.vsnFindOnPlanes(std_objectName, foundObjects))
+	{
+		//findonplanes wasn't executed
+		return false;
+	}
+
+	if(foundObjects.markers.size() == 0)
+	{
+		//no object found
+		return false;
+	}
+
+	//search the object on the returned list
+	int i=0;
+	while(i<foundObjects.markers.size() && objectName.compare(foundObjects.markers[i++].ns)!=0);
+
+	if(foundObjects.markers.size() == i)
+	{
+		//the object wasn't on the scene
+		return false;
+	}
+	
+	//return the found object properties
+	objectFound = foundObjects.markers[i-1];
+
+	return true;
 }
 
 /*
