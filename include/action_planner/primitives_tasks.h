@@ -23,6 +23,7 @@ public:
 	*/
 	//bool takeObject(std::string objectName);
 	bool searchObject(std::string, visualization_msgs::Marker&);
+	bool searchSingleObject(visualization_msgs::Marker&);
 	bool searchAndTakeObject(std::string, RobotKnowledge::ARM_SIDE);
 	bool rememberHuman(std::string);
 	

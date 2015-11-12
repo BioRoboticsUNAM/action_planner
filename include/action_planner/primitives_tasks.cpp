@@ -68,6 +68,51 @@ bool PrimitivesTasks::rememberHuman(std::string humanName)
 }
 
 /*
+* Search objects in the scene
+* Receives:
+*	objectFound (ref): stores the found object (or the first found object)
+* Returns:
+*	true if one single object was found, false otherwise
+*/
+bool PrimitivesTasks::searchSingleObject(visualization_msgs::Marker &objectFound)
+{
+	ServiceManager srv_man;
+	
+	//move the head to -1
+	std_msgs::Float32 tilt, pan, cTilt, cPan;
+	tilt.data = -1, pan.data = 0.0;
+	srv_man.hdLookAt(pan, tilt, cPan, cTilt);
+
+	///use vision to find the object on the plane
+	std_msgs::String std_objectName;
+	std_objectName.data = "objects";	//send objects as param in order to find all the objects in the scene
+	visualization_msgs::MarkerArray foundObjects;
+
+	if(!srv_man.vsnFindOnPlanes(std_objectName, foundObjects))
+	{
+		//findonplanes wasn't executed
+		objectFound.ns = "no_object_data";
+		return false;
+	}
+
+	if(foundObjects.markers.size() <= 0)
+	{
+		//no objects found
+		objectFound.ns = "no_object_data";
+		return false;
+	}
+
+	objectFound = foundObjects.markers[0];	//stores the first object listed
+	if(foundObjects.markers.size() > 1)
+	{
+		//more than 1 object found
+		return false;
+	}
+
+	return true;
+
+}
+/*
 * Search an specific object in the objects-scene
 * Receives:
 *	objectName: the name of the object to search
