@@ -16,6 +16,7 @@
 class PrimitivesTasks
 {
 public:
+	PrimitivesTasks(){};
 	PrimitivesTasks(ros::NodeHandle&, ros::Subscriber&);
 	/*
 	* Take object primitives

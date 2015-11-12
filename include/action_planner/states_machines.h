@@ -12,29 +12,7 @@ public:
 	StatesMachines();
 
 	typedef int (*fncPtr)();
-	/*
-	* Enum to represent the SMs status
-	*
-	*/
-	//enum SM_STATUS
-	//{
-	//	Initializing,
-	//	Executing,
-	//	Succeeded,
-	//	Failed
-	//};
-	//variable to know the current status of the SM
-	//SM_STATUS currentSMStatus;
 	
-	//the SM methods
-	//bool objectPerceptionSM();
-	bool navigationSM();
-	bool speechUnderstandingSM();
-	bool grannyAnnieSM();
-	bool knowHomeSM();
-	bool welcomingSM();
-	bool defaultSM();
-
 	void resetStates();
 	void addState(int, fncPtr, bool isFinalState=false);
 	bool runNextStep();

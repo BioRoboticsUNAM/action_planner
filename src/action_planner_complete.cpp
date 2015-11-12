@@ -1,5 +1,10 @@
 #include "action_planner/object_perception.h"
-//#include "action_planner/states_machines.h"
+#include "action_planner/navigation_sm.h"
+#include "action_planner/speech_understanding_sm.h"
+#include "action_planner/know_home_sm.h"
+#include "action_planner/granny_annie_sm.h"
+#include "action_planner/default_sm.h"
+#include "action_planner/welcoming_sm.h"
 #include "action_planner/robot_knowledge.h"
 #include "action_planner/service_manager.h"
 #include "action_planner/primitives_tasks.h"
@@ -72,11 +77,18 @@ int main(int argc, char** argv)
 
 	//Set up ACT_PLN env
 	ServiceManager srv_man;
-	//PrimitivesTasks pt(nh, rs);	//pass the nodeHandler and Subscriber to suscribe to the recospeech topic
+	PrimitivesTasks pt(nh, rs);	//pass the nodeHandler and Subscriber to suscribe to the recospeech topic
 	RobotKnowledge know;
 	//StatesMachines SM;
 
-	ObjectPerceptionSM objSM(nh, rs);
+	ObjectPerceptionSM objSM(pt);
+	NavigationSM navSM(pt);
+	SpeechUnderstandingSM speechSM(pt);
+	KnowHomeSM knowSM(pt);
+	WelcomingSM welcomingSM(pt);
+	GrannyAnnieSM gaSM(pt);
+	DefaultSM defSM(pt);
+
 	//Execute the selected test
 	switch(testToExecute)
 	{
@@ -84,22 +96,22 @@ int main(int argc, char** argv)
 			objSM.execute();
 			break;
 		case RobotKnowledge::Navigation_FB:
-			//SM.navigationSM();
+			navSM.execute();
 			break;
 		case RobotKnowledge::Speech_FB:
-			//SM.speechUnderstandingSM();
+			speechSM.execute();
 			break;
 		case RobotKnowledge::KnowHome_TB:
-			//SM.knowHomeSM();
+			knowSM.execute();
 			break;
 		case RobotKnowledge::Welcoming_TB:
-			//SM.welcomingSM();
+			welcomingSM.execute();
 			break;
 		case RobotKnowledge::GrannyAnnie_TB:
-			//SM.grannyAnnieSM();
+			gaSM.execute();
 			break;
 		case RobotKnowledge::DefaultTest:
-			//SM.defaultSM();
+			defSM.execute();
 			break;
 		default:
 			std::cout << "Invalid Test selection." << std::endl;

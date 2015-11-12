@@ -3,7 +3,7 @@
 #include "ros/ros.h"
 #include <iostream>
 
-class ObjectPerceptionSM
+class GrannyAnnieSM
 {
 public:
 	/*
@@ -63,7 +63,7 @@ public:
 	* A particular constructor for your state machine
 	* Initialize your state machine here (add states, define the final state, define the execution method, etc)
 	*/
-	ObjectPerceptionSM(PrimitivesTasks tasks)
+	GrannyAnnieSM(PrimitivesTasks tasks)
 	{
 		m_tasks = tasks;
 		//add states to the state machine

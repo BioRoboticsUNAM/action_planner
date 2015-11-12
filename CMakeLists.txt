@@ -141,12 +141,6 @@ add_executable(
 	include/action_planner/primitives_tasks.cpp
 	include/action_planner/robot_knowledge.cpp
 	include/action_planner/states_machines.cpp
-	include/action_planner/navigation_sm.cpp
-	include/action_planner/speech_understanding_sm.cpp
-	include/action_planner/granny_annie_sm.cpp
-	include/action_planner/welcoming_sm.cpp
-	include/action_planner/know_home_sm.cpp
-	include/action_planner/default_sm.cpp
 )
 ## Specify libraries to link a library or executable target against
 target_link_libraries(action_planner_complete
