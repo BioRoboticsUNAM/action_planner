@@ -77,11 +77,6 @@ bool PrimitivesTasks::rememberHuman(std::string humanName)
 bool PrimitivesTasks::searchSingleObject(visualization_msgs::Marker &objectFound)
 {
 	ServiceManager srv_man;
-	
-	//move the head to -1
-	std_msgs::Float32 tilt, pan, cTilt, cPan;
-	tilt.data = -1, pan.data = 0.0;
-	srv_man.hdLookAt(pan, tilt, cPan, cTilt);
 
 	///use vision to find the object on the plane
 	std_msgs::String std_objectName;
@@ -91,14 +86,12 @@ bool PrimitivesTasks::searchSingleObject(visualization_msgs::Marker &objectFound
 	if(!srv_man.vsnFindOnPlanes(std_objectName, foundObjects))
 	{
 		//findonplanes wasn't executed
-		objectFound.ns = "no_object_data";
 		return false;
 	}
 
 	if(foundObjects.markers.size() <= 0)
 	{
 		//no objects found
-		objectFound.ns = "no_object_data";
 		return false;
 	}
 
