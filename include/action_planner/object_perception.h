@@ -97,7 +97,7 @@ int ObjectPerceptionSM::initialState()
 	std::cout << "executing initial state " << maxAttempts << std::endl;
 
 	/*Initialize member variables*/
-	maxAttempts =  3;
+	maxAttempts =  8;
 	searchAttempt = 0;
 	currentHeadPosition = 0;
 	//head positions to find the object
@@ -143,17 +143,17 @@ int ObjectPerceptionSM::lookForObjects()
 		//one object found, report its position
 		return (int)ReportResult;
 	}
-	if(objectFound.ns.compare("clean")==0)
-	{
-		//no object found
-		std::cout << "ACT-PLN: no objects found, try again moving head" << std::endl;
-		return (int)MoveHead;
-	}
-	std::cout << "more than one object found, try again on same place" << std::endl;
 	if(searchAttempt<maxAttempts)
 	{
 		searchAttempt++;
-		return (int)LookForObjects;
+		if(objectFound.ns.compare("clean")==0)
+		{
+			//no object found
+			std::cout << "ACT-PLN: no objects found, try again moving head" << std::endl;
+			return (int)MoveHead;
+		}
+		std::cout << "more than one object found, try again on same place" << std::endl;
+		return (int)MoveHead;
 	}
 	return (int)ReportResult;
 }
