@@ -97,7 +97,6 @@ int ObjectPerceptionSM::initialState()
 	std::cout << "executing initial state " << maxAttempts << std::endl;
 
 	/*Initialize member variables*/
-	maxAttempts =  8;
 	searchAttempt = 0;
 	currentHeadPosition = 0;
 	//head positions to find the object
@@ -108,12 +107,15 @@ int ObjectPerceptionSM::initialState()
 	headPositions.push_back(headParams(0.3,-0.6));
 	headPositions.push_back(headParams(-0.3,-0.6));
 
+	maxAttempts =  headPositions.size();
+
 	return (int)WaitForInitCommand;
 }
 
 int ObjectPerceptionSM::waitForInitCommand()
 {
 	std::cout << "waiting for init command....." << std::endl;
+	std::getchar();
 	searchAttempt=0;
 	currentHeadPosition = 0;
 	return (int)LookForObjects;
@@ -125,10 +127,13 @@ int ObjectPerceptionSM::moveHead()
 	
 	//move the head to current pos
 	std_msgs::Float32 tilt, pan, cTilt, cPan;
-	tilt.data = headPositions[currentHeadPosition].tilt;
-	pan.data = headPositions[currentHeadPosition].pan;
+	tilt.data = headPositions[currentHeadPosition % headPositions.size()].tilt;
+	pan.data = headPositions[currentHeadPosition % headPositions.size()].pan;
 	srv_man.hdLookAt(pan, tilt, cPan, cTilt);
-	currentHeadPosition = (currentHeadPosition < headPositions.size()) ? currentHeadPosition+1: 0;
+	currentHeadPosition++;
+	//currentHeadPosition = (currentHeadPosition < headPositions.size()) ? currentHeadPosition+1: 0;
+	
+	//std::cout << "moving head to : (" << pan.data << ", " << tilt.data << ")" << std::endl;
 
 	return (int)LookForObjects;
 }
@@ -160,8 +165,10 @@ int ObjectPerceptionSM::lookForObjects()
 
 int ObjectPerceptionSM::reportResult()
 {
-	std::cout << "Repoorting results: " << objectFound <<  std::endl;
-	return (int)FinalState;
+	std::cout << "Repoorting results... " << std::endl;
+	std::cout << "FOUND OBJECT NAME: " << objectFound.ns <<  std::endl;
+	//return (int)FinalState;
+	return (int)WaitForInitCommand;
 }
 
 int ObjectPerceptionSM::finalState()
