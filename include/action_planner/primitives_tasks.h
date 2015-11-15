@@ -30,7 +30,7 @@ public:
 	/*
 	* RecoSpeech primitives
 	*/
-	bool listen(std::string&);
+	bool listen(std::string&, int);
 private:
 	geometry_msgs::Point transRobotToArm(geometry_msgs::Point);
 };

@@ -11,12 +11,16 @@ PrimitivesTasks::PrimitivesTasks(ros::NodeHandle &nh, ros::Subscriber &sub)
 }
 
 /*
-* TODO: Doc
+* Waits for a recognized speech sentence comming from SPREC module
+* Receives:
+*	timeout: timeout for the SPREC (millisecs)
+* Returns:
+*	recoSentence: the recognized sentence comming from SPREC (by reference)
+*	true if the SPREC module hears something, false otherwise
 */
-bool PrimitivesTasks::listen(std::string& recoSentence)
+bool PrimitivesTasks::listen(std::string& recoSentence, int timeout)
 {
-
-	return RecognizedSentencesHandler::listen(recoSentence, 5000);
+	return RecognizedSentencesHandler::listen(recoSentence, timeout);
 }
 
 /*

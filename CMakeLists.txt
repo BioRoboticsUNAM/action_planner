@@ -138,6 +138,7 @@ add_executable(
 	include/action_planner/service_manager_vision.cpp
 	include/action_planner/service_manager_head.cpp
 	include/action_planner/service_manager_prsfnd.cpp
+	include/action_planner/service_manager_langund.cpp
 	include/action_planner/primitives_tasks.cpp
 	include/action_planner/robot_knowledge.cpp
 	include/action_planner/states_machines.cpp

@@ -57,6 +57,11 @@ public:
 	bool prsfndFind(std::string, int);
 	bool prsfndRemember(std::string, int);
 	bool prsfndAmnesia(int);
+	
+	/*
+	* LANG_UND service callers
+	*/
+	bool langundProcess(std::string, std::string&);
 };
 
 #endif

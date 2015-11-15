@@ -118,7 +118,7 @@ int ObjectPerceptionSM::waitForInitCommand()
 	std::getchar();
 	searchAttempt=0;
 	currentHeadPosition = 0;
-	return (int)LookForObjects;
+	return (int)MoveHead;
 }
 
 int ObjectPerceptionSM::moveHead()
@@ -143,6 +143,8 @@ int ObjectPerceptionSM::lookForObjects()
 	std::cout << "looking for objects" << std::endl;
 	
 	objectFound.ns = "clean";
+	
+	ros::Duration(0.5).sleep();
 	if(m_tasks.searchSingleObject(objectFound))
 	{
 		//one object found, report its position
@@ -178,5 +180,3 @@ int ObjectPerceptionSM::finalState()
 }
 
 /**********************************************************************/
-
-

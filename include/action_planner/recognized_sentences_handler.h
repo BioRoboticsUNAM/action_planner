@@ -64,6 +64,8 @@ namespace RecognizedSentencesHandler
 	*/
 	bool listen(std::string &confidentSentence, int timeout)
 	{
+		//to flush the topic queue
+		ros::spinOnce();
 		//set up listen status
 		recognizedSentences.clear();
 		speechRecoUpdated = false;
@@ -104,6 +106,9 @@ namespace RecognizedSentencesHandler
 	*/
 	std::deque<recoSentenceTuple> listen(int timeout)
 	{
+		//to flush the topic queue
+		ros::spinOnce();
+
 		//set up listen status
 		recognizedSentences.clear();
 		speechRecoUpdated = false;
