@@ -81,11 +81,11 @@ int main(int argc, char** argv)
 	RobotKnowledge know;
 	//StatesMachines SM;
 
-	ObjectPerceptionSM objSM(pt);
+	ObjectPerceptionSM objSM(pt, &nh);
 	NavigationSM navSM(pt, &nh);
 	SpeechUnderstandingSM speechSM(pt);
 	KnowHomeSM knowSM(pt);
-	WelcomingSM welcomingSM(pt);
+	WelcomingSM welcomingSM(pt, &nh);
 	GrannyAnnieSM gaSM(pt);
 	DefaultSM defSM(pt);
 

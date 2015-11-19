@@ -25,6 +25,7 @@ private:
 		FinalState
 	};
 
+	static ros::NodeHandle* node;
 	//for the SM api
 	StatesMachines SM;
 	//service manager
@@ -33,6 +34,10 @@ private:
 	static PrimitivesTasks m_tasks;
 	//SM variables
 	static std::string visitorName;
+	static ros::ServiceClient srvCltEndPrepare;
+	static ros::ServiceClient srvCltEndExecute;
+	static ros::Subscriber subBenchmarkState;
+	static ros::Publisher pubRecordData;
 
 	/********************************************************************/
 	/*
@@ -51,21 +56,24 @@ private:
 	/**********************************************************************/
 	
 public:
-	WelcomingSM(PrimitivesTasks tasks);
+	WelcomingSM(PrimitivesTasks tasks,  ros::NodeHandle*);
 	bool execute();
 };
 
 PrimitivesTasks WelcomingSM::m_tasks;
 ServiceManager WelcomingSM::srv_man;
+ros::NodeHandle* WelcomingSM::node;
 
 
 /*
 * A particular constructor for your state machine
 * Initialize your state machine here (add states, define the final state, define the execution method, etc)
 */
-WelcomingSM::WelcomingSM(PrimitivesTasks tasks)
+WelcomingSM::WelcomingSM(PrimitivesTasks tasks, ros::NodeHandle* n)
 {
 	m_tasks = tasks;
+	node = n;
+
 	//int (WelcomingSM::*
 	//add states to the state machine
 	SM.addState((int)InitialState, &fInitialState);
@@ -78,12 +86,23 @@ WelcomingSM::WelcomingSM(PrimitivesTasks tasks)
 	SM.addState((int)PerformUnknownPersonRoutine, &fPerformUnknownPersonRoutine);
 	SM.addState((int)MoveToInitialPosition, &fMoveToInitialPosition);
 	SM.addState((int)FinalState, &fFinalState, true);
+
+	//srvCltEndPrepare = n->serviceClient<std_srvs::Empty>("roah_rsbb/end_prepare");
+	//srvCltEndExecute = n->serviceClient<std_srvs::Empty>("roah_rsbb/end_execute");
+	//subBenchmarkState = n->subscribe("/roah_rsbb/benchmark/state", 100, NavigationSM::callback_benchmark_state);
+	////subGoalPose = n->subscribe("/roah_rsbb/goal", 100, NavigationSM::callback_goal_pose);
+	////pubMessagesSaved = n->advertise<std_msgs::UInt32>("roah_rsbb/messages_saved", 100);
+	////pubReachedWaypoint = n->advertise<std_msgs::UInt8>("roah_rsbb/reached_waypoint", 100);
+	//pubRecordData = n->advertise<std_msgs::Bool>("br_record_data", 100);
+
 }
 bool WelcomingSM::execute()
 {
-	while(SM.runNextStep());
+	while(SM.runNextStep())
+		ros::spinOnce();
+
 	return true;
-};
+}
 
 /*
 *	ADD THE STATE FUNCTIONS YOU NEED

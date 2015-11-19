@@ -3,7 +3,12 @@
 #include "visualization_msgs/MarkerArray.h"
 #include "action_planner/states_machines.h"
 #include "ros/ros.h"
+#include "roah_rsbb_comm_ros/BenchmarkState.h"
+#include "roah_rsbb_comm_ros/ResultHOPF.h"
 #include "std_msgs/Float32.h"
+#include "std_msgs/UInt32.h"
+#include "geometry_msgs/Pose2D.h"
+#include "std_srvs/Empty.h"
 #include <iostream>
 #include <vector>
 
@@ -29,6 +34,8 @@ private:
 		double pan;
 	};
 
+	static ros::NodeHandle* node;
+
 	//for the SM api
 	StatesMachines SM;
 	//service manager
@@ -42,6 +49,12 @@ private:
 	static int currentHeadPosition;
 	static std::vector<headParams> headPositions;
 
+	static ros::ServiceClient srvCltEndPrepare;
+	static ros::ServiceClient srvCltEndExecute;
+	static ros::Subscriber subBenchmarkState;
+	static ros::Publisher pubMessagesSaved;
+	static ros::Publisher pubRecordData;
+
 	/********************************************************************/
 	/*
 	*	ADD THE STATE FUNCTIONS YOU NEED
@@ -53,9 +66,10 @@ private:
 	static int reportResult();
 	static int finalState();
 	/**********************************************************************/
+	static void callback_benchmark_state(const roah_rsbb_comm_ros::BenchmarkState::ConstPtr& msg);
 	
 public:
-	ObjectPerceptionSM(PrimitivesTasks tasks);
+	ObjectPerceptionSM(PrimitivesTasks tasks, ros::NodeHandle *);
 	bool execute();
 };
 
@@ -66,14 +80,21 @@ PrimitivesTasks ObjectPerceptionSM::m_tasks;
 std::vector<ObjectPerceptionSM::headParams> ObjectPerceptionSM::headPositions;
 int ObjectPerceptionSM::currentHeadPosition;
 ServiceManager ObjectPerceptionSM::srv_man;
+ros::NodeHandle* ObjectPerceptionSM::node;
+ros::ServiceClient ObjectPerceptionSM::srvCltEndPrepare;
+ros::ServiceClient ObjectPerceptionSM::srvCltEndExecute;
+ros::Subscriber ObjectPerceptionSM::subBenchmarkState;
+ros::Publisher ObjectPerceptionSM::pubMessagesSaved;
+ros::Publisher ObjectPerceptionSM::pubRecordData;
 
 /*
 * A particular constructor for your state machine
 * Initialize your state machine here (add states, define the final state, define the execution method, etc)
 */
-ObjectPerceptionSM::ObjectPerceptionSM(PrimitivesTasks tasks)
+ObjectPerceptionSM::ObjectPerceptionSM(PrimitivesTasks tasks, ros::NodeHandle *n)
 {
 	m_tasks = tasks;
+	node = n;
 	//int (ObjectPerceptionSM::*
 	//add states to the state machine
 	SM.addState((int)InitialState, &initialState);
@@ -82,12 +103,21 @@ ObjectPerceptionSM::ObjectPerceptionSM(PrimitivesTasks tasks)
 	SM.addState((int)LookForObjects, &lookForObjects);
 	SM.addState((int)ReportResult, &reportResult);;
 	SM.addState((int)FinalState, &finalState, true);
+
+	srvCltEndPrepare = n->serviceClient<std_srvs::Empty>("roah_rsbb/end_prepare");
+	srvCltEndExecute = n->serviceClient<roah_rsbb_comm_ros::ResultHOPF>("roah_rsbb/end_execute");
+	subBenchmarkState = n->subscribe("/roah_rsbb/benchmark/state", 100, ObjectPerceptionSM::callback_benchmark_state);
+	pubMessagesSaved = n->advertise<std_msgs::UInt32>("roah_rsbb/messages_saved", 100);
+	pubRecordData = n->advertise<std_msgs::Bool>("br_record_data", 100);
 }
 bool ObjectPerceptionSM::execute()
 {
-	while(SM.runNextStep());
+	while(SM.runNextStep())
+	{
+		ros::spinOnce();
+	}
 	return true;
-};
+}
 
 /*
 *	ADD THE STATE FUNCTIONS YOU NEED
@@ -114,8 +144,38 @@ int ObjectPerceptionSM::initialState()
 
 int ObjectPerceptionSM::waitForInitCommand()
 {
-	std::cout << "waiting for init command....." << std::endl;
-	std::getchar();
+	std::cout << "waiting for prepare signal....." << std::endl;
+	if(!ros::service::waitForService("/roah_rsbb/end_prepare", 60000))
+	{
+		std::cout << "RSBB NOT AVAILABLE :'(" << std::endl;
+		return (int)FinalState;
+	}
+	std::cout << "Prepare signal received..." << std::endl;
+
+	//--------------------------------------------------------//
+
+	std_srvs::Empty es;
+	std::cout << "Calling end_prepare service" << std::endl;
+	srvCltEndPrepare.call(es);
+
+	//----------------------------------------------------------//
+
+	std::cout << "Waiting for execute signal..." << std::endl;
+	if(!ros::service::waitForService("roah_rsbb/end_execute", 60000))		 
+	{
+		std::cout << "RSBB NOT AVAILABLE :'(" << std::endl;
+		return (int)FinalState;	
+	}
+	std::cout << "Execute signal received :D" << std::endl;
+
+	//----------------------------------------------------------//
+	
+	std::cout << "Sending messages log command..." << std::endl;
+	std_msgs::UInt32 msgMessages;
+	pubMessagesSaved.publish(msgMessages);
+
+
+	//std::getchar();
 	searchAttempt=0;
 	currentHeadPosition = 0;
 	return (int)MoveHead;
@@ -167,7 +227,20 @@ int ObjectPerceptionSM::lookForObjects()
 
 int ObjectPerceptionSM::reportResult()
 {
-	std::cout << "Repoorting results... " << std::endl;
+	std::cout << "Repoorting results (ie call end_execute)... " << std::endl;
+
+	std::cout << "Calling end_execute service..." << std::endl;
+
+	roah_rsbb_comm_ros::ResultHOPF objResult;
+	objResult.request.object_name = objectFound.ns;
+	//objResult.request.object_name = getObjectClass(objectFound.ns);
+	geometry_msgs::Pose2D pose;
+	pose.x=objectFound.pose.position.x;
+	pose.y=objectFound.pose.position.y;
+	pose.theta=objectFound.pose.position.z;
+	objResult.request.object_pose = pose;
+
+	srvCltEndExecute.call(objResult);
 	std::cout << "FOUND OBJECT NAME: " << objectFound.ns <<  std::endl;
 	//return (int)FinalState;
 	return (int)WaitForInitCommand;
@@ -180,3 +253,10 @@ int ObjectPerceptionSM::finalState()
 }
 
 /**********************************************************************/
+
+/***********ROS TOPICS CALLBACKS*****************/
+void ObjectPerceptionSM::callback_benchmark_state(const roah_rsbb_comm_ros::BenchmarkState::ConstPtr &msg)
+{
+	std::cout << "BechmarkState changed: " << msg->benchmark_state << std::endl;
+}
+///////////////************************///////////////
