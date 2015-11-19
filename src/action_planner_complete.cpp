@@ -82,7 +82,7 @@ int main(int argc, char** argv)
 	//StatesMachines SM;
 
 	ObjectPerceptionSM objSM(pt);
-	NavigationSM navSM(pt);
+	NavigationSM navSM(pt, &nh);
 	SpeechUnderstandingSM speechSM(pt);
 	KnowHomeSM knowSM(pt);
 	WelcomingSM welcomingSM(pt);

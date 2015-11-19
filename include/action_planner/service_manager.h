@@ -50,6 +50,7 @@ public:
 	*	VISION services callers
 	*/
 	bool vsnFindOnPlanes(std_msgs::String, visualization_msgs::MarkerArray&);
+	bool vsnClothesReco(std_msgs::String&);
 
 	/*
 	*	PRS-FND services callers

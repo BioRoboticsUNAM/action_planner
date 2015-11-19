@@ -14,10 +14,14 @@ private:
 	enum States
 	{
 		InitialState,
-		WaitForInitCommand,
-		ProcessAudioFiles,
-		ListenAndParse,
-		ReportResult,
+		WaitForBellRing,
+		RecognizeVisitor,
+		GreetVisitor,
+		PerformDrKimbleRoutine,
+		PerformDeliManRoutine,
+		PerformPostManRoutine,
+		PerformUnknownPersonRoutine,
+		MoveToInitialPosition,
 		FinalState
 	};
 
@@ -27,21 +31,23 @@ private:
 	static ServiceManager srv_man;
 	//stpln
 	static PrimitivesTasks m_tasks;
-	//state func members
-	static int listenAttempts;
-	static int maxListenAttempts;
-	static std::string cfrRepresentation;
+	//SM variables
+	static std::string visitorName;
 
 	/********************************************************************/
 	/*
 	*	ADD THE STATE FUNCTIONS YOU NEED
 	*/
-	static int initialState();
-	static int waitForInitCommand();
-	static int processAudioFiles();
-	static int listenAndParse();
-	static int reportResult();
-	static int finalState();
+	static int fInitialState();
+	static int fWaitForBellRing();
+	static int fRecognizeVisitor();
+	static int fGreetVisitor();
+	static int fPerformDrKimbleRoutine();
+	static int fPerformDeliManRoutine();
+	static int fPerformPostManRoutine();
+	static int fPerformUnknownPersonRoutine();
+	static int fMoveToInitialPosition();
+	static int fFinalState();
 	/**********************************************************************/
 	
 public:
@@ -51,9 +57,6 @@ public:
 
 PrimitivesTasks WelcomingSM::m_tasks;
 ServiceManager WelcomingSM::srv_man;
-int WelcomingSM::listenAttempts;
-int WelcomingSM::maxListenAttempts;
-std::string WelcomingSM::cfrRepresentation;
 
 
 /*
@@ -65,12 +68,16 @@ WelcomingSM::WelcomingSM(PrimitivesTasks tasks)
 	m_tasks = tasks;
 	//int (WelcomingSM::*
 	//add states to the state machine
-	SM.addState((int)InitialState, &initialState);
-	SM.addState((int)WaitForInitCommand, &waitForInitCommand);
-	SM.addState((int)ProcessAudioFiles, &processAudioFiles);
-	SM.addState((int)ListenAndParse, &listenAndParse);
-	SM.addState((int)ReportResult, &reportResult);;
-	SM.addState((int)FinalState, &finalState, true);
+	SM.addState((int)InitialState, &fInitialState);
+	SM.addState((int)WaitForBellRing, &fWaitForBellRing);
+	SM.addState((int)RecognizeVisitor, &fRecognizeVisitor);
+	SM.addState((int)GreetVisitor, &fGreetVisitor);
+	SM.addState((int)PerformDrKimbleRoutine, &fPerformDrKimbleRoutine);
+	SM.addState((int)PerformDeliManRoutine, &fPerformDeliManRoutine);
+	SM.addState((int)PerformPostManRoutine, &fPerformPostManRoutine);
+	SM.addState((int)PerformUnknownPersonRoutine, &fPerformUnknownPersonRoutine);
+	SM.addState((int)MoveToInitialPosition, &fMoveToInitialPosition);
+	SM.addState((int)FinalState, &fFinalState, true);
 }
 bool WelcomingSM::execute()
 {
@@ -81,68 +88,56 @@ bool WelcomingSM::execute()
 /*
 *	ADD THE STATE FUNCTIONS YOU NEED
 */
-int WelcomingSM::initialState()
+ int WelcomingSM::fInitialState()
 {
-	std::cout << "executing initial state " << std::endl;
-
-	/*Initialize member variables*/
-	listenAttempts=0;
-	maxListenAttempts=3;
-
-	return (int)WaitForInitCommand;
+	std::cout << "Initializing Welcoming Visitors SM" << std::endl;
+	return (int)WaitForBellRing;
 }
-
-int WelcomingSM::waitForInitCommand()
+ int WelcomingSM::fWaitForBellRing()
 {
-	std::cout << "waiting for init command....." << std::endl;
+	std::cout << "Waiting for the door bell ring....." << std::endl;
 	std::getchar();
-	return (int)ProcessAudioFiles;
+	return (int)RecognizeVisitor;
 }
-
-int WelcomingSM::processAudioFiles()
+ int WelcomingSM::fRecognizeVisitor()
 {
-	std::cout << "processing audio files... " << std::endl;
+	std::cout << "Recognizing visitor using vision..." << std::endl;
+	//try to recognize Dr. Kim
 	
-	return (int)ListenAndParse;
-}
+	//if the person is not the Dr. try using clothes
+	//bool vsnClothesReco(std_msgs::String&)
+	//unknown person
 
-int WelcomingSM::listenAndParse()
+	//TODO: Call the vision routine
+	std::cout << "visitor recognized: " << std::endl;
+	return (int)GreetVisitor;
+}
+ int WelcomingSM::fGreetVisitor()
 {
-	std::cout << "waiting for speech command... " << std::endl;
-	std::string recoSentence;
-	if(m_tasks.listen(recoSentence, 10000))
-	{
-		std::cout << "parsing command... " << std::endl;
-		srv_man.langundProcess(recoSentence, cfrRepresentation);
-	}
-	else
-	{
-		//nothing heared, try again
-		srv_man.spgenSay("Human I cannot hear you. Please get closer to my microphone", 5000);
-		if(listenAttempts<maxListenAttempts)
-		{
-			listenAttempts++;
-			return (int)ListenAndParse;
-		}
-		return (int)ReportResult;
-	}
-	
-	//ros::Duration(0.5).sleep();
-	return (int)ReportResult;
+	return (int)0;
 }
-
-int WelcomingSM::reportResult()
+ int WelcomingSM::fPerformDrKimbleRoutine()
 {
-	std::cout << "Repoorting result... " << std::endl;
-	std::cout << "CFR Representation of the recognized sentence: " << cfrRepresentation << std::endl;
-	//return (int)FinalState;
-	return (int)ListenAndParse;
+	return (int)0;
 }
-
-int WelcomingSM::finalState()
+ int WelcomingSM::fPerformDeliManRoutine()
 {
-	std::cout << "finalState reached" << std::endl;
-	return (int)FinalState;
+	return (int)0;
 }
-
+ int WelcomingSM::fPerformPostManRoutine()
+{
+	return (int)0;
+}
+ int WelcomingSM::fPerformUnknownPersonRoutine()
+{
+	return (int)0;
+}
+ int WelcomingSM::fMoveToInitialPosition()
+{
+	return (int)0;
+}
+ int WelcomingSM::fFinalState()
+{
+	return (int)0;
+}
 /**********************************************************************/
