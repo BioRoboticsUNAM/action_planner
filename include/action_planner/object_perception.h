@@ -1,5 +1,6 @@
 #include "action_planner/primitives_tasks.h"
 #include "action_planner/service_manager.h"
+#include "action_planner/robot_knowledge.h"
 #include "visualization_msgs/MarkerArray.h"
 #include "action_planner/states_machines.h"
 #include "ros/ros.h"
@@ -42,8 +43,10 @@ private:
 	static ServiceManager srv_man;
 	//stpln
 	static PrimitivesTasks m_tasks;
+	static RobotKnowledge know;
 	//state func members
-	static visualization_msgs::Marker objectFound;
+	static visualization_msgs::Marker currentObjectFound;
+	static visualization_msgs::Marker bestObjectFound;
 	static int searchAttempt;
 	static int maxAttempts;
 	static int currentHeadPosition;
@@ -74,7 +77,8 @@ public:
 };
 
 int ObjectPerceptionSM::maxAttempts;
-visualization_msgs::Marker ObjectPerceptionSM::objectFound;
+visualization_msgs::Marker ObjectPerceptionSM::currentObjectFound;
+visualization_msgs::Marker ObjectPerceptionSM::bestObjectFound;
 int ObjectPerceptionSM::searchAttempt;
 PrimitivesTasks ObjectPerceptionSM::m_tasks;
 std::vector<ObjectPerceptionSM::headParams> ObjectPerceptionSM::headPositions;
@@ -86,6 +90,7 @@ ros::ServiceClient ObjectPerceptionSM::srvCltEndExecute;
 ros::Subscriber ObjectPerceptionSM::subBenchmarkState;
 ros::Publisher ObjectPerceptionSM::pubMessagesSaved;
 ros::Publisher ObjectPerceptionSM::pubRecordData;
+RobotKnowledge ObjectPerceptionSM::know;
 
 /*
 * A particular constructor for your state machine
@@ -129,14 +134,19 @@ int ObjectPerceptionSM::initialState()
 	/*Initialize member variables*/
 	searchAttempt = 0;
 	currentHeadPosition = 0;
-	//head positions to find the object
-	headPositions.push_back(headParams(0.0,-0.8));
-	headPositions.push_back(headParams(0.3,-0.8));
-	headPositions.push_back(headParams(-0.3,-0.8));
-	headPositions.push_back(headParams(0.0,-0.6));
-	headPositions.push_back(headParams(0.3,-0.6));
-	headPositions.push_back(headParams(-0.3,-0.6));
+	bestObjectFound.ns = "unknown";
 
+	////head positions to find the object
+	//headPositions.push_back(headParams(0.0,-0.8));
+	//headPositions.push_back(headParams(0.3,-0.8));
+	//headPositions.push_back(headParams(-0.3,-0.8));
+	//headPositions.push_back(headParams(0.0,-0.6));
+	//headPositions.push_back(headParams(0.3,-0.6));
+	//headPositions.push_back(headParams(-0.3,-0.6));
+
+	headPositions.push_back(headParams(0.0,-0.8));
+	headPositions.push_back(headParams(0.1,-0.8));
+	headPositions.push_back(headParams(-0.1,-0.8));
 	maxAttempts =  headPositions.size();
 
 	return (int)WaitForInitCommand;
@@ -202,24 +212,26 @@ int ObjectPerceptionSM::lookForObjects()
 {
 	std::cout << "looking for objects" << std::endl;
 	
-	objectFound.ns = "clean";
+	currentObjectFound.ns = "clean";
 	
 	ros::Duration(0.5).sleep();
-	if(m_tasks.searchSingleObject(objectFound))
+	if(m_tasks.searchSingleObject(currentObjectFound))
 	{
+		bestObjectFound = currentObjectFound;
 		//one object found, report its position
 		return (int)ReportResult;
 	}
 	if(searchAttempt<maxAttempts)
 	{
 		searchAttempt++;
-		if(objectFound.ns.compare("clean")==0)
+		if(currentObjectFound.ns.compare("clean")==0)
 		{
 			//no object found
 			std::cout << "ACT-PLN: no objects found, try again moving head" << std::endl;
 			return (int)MoveHead;
 		}
 		std::cout << "more than one object found, try again on same place" << std::endl;
+		bestObjectFound = currentObjectFound;
 		return (int)MoveHead;
 	}
 	return (int)ReportResult;
@@ -232,16 +244,16 @@ int ObjectPerceptionSM::reportResult()
 	std::cout << "Calling end_execute service..." << std::endl;
 
 	roah_rsbb_comm_ros::ResultHOPF objResult;
-	objResult.request.object_name = objectFound.ns;
-	//objResult.request.object_name = getObjectClass(objectFound.ns);
+	objResult.request.object_name = bestObjectFound.ns;
+	objResult.request.object_class = know.objectDictionary[bestObjectFound.ns];
 	geometry_msgs::Pose2D pose;
-	pose.x=objectFound.pose.position.x;
-	pose.y=objectFound.pose.position.y;
-	pose.theta=objectFound.pose.position.z;
+	pose.x = bestObjectFound.pose.position.x;
+	pose.y = bestObjectFound.pose.position.y;
+	pose.theta = bestObjectFound.pose.position.z;
 	objResult.request.object_pose = pose;
 
 	srvCltEndExecute.call(objResult);
-	std::cout << "FOUND OBJECT NAME: " << objectFound.ns <<  std::endl;
+	std::cout << "FOUND OBJECT NAME: " << bestObjectFound.ns <<  std::endl;
 	//return (int)FinalState;
 	return (int)WaitForInitCommand;
 }

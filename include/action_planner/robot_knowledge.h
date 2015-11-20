@@ -2,6 +2,8 @@
 #define ACT_PLN_RBT_KNW
 
 #include "ros/ros.h"
+#include <map>
+#include <string>
 
 class RobotKnowledge
 {
@@ -29,8 +31,10 @@ public:
 		DefaultTest
 	};
 
+	//dictionary to map the object instances to classes
+	std::map<std::string, std::string> objectDictionary;
 
-	//RobotKnowledge();
+	RobotKnowledge();
 private:
 	/*
 	* Node handle and subscriber for speech reco
