@@ -60,6 +60,7 @@ RobotKnowledge::SM parseArgument(std::string taskName)
 }
 int main(int argc, char** argv)
 {
+	std::cout << "INITIALIZING ACT_PLN BY MARCOSOFT.... (La prueba que funciono primer fue la de marco...(como siempre)" << std::endl;
 
 	if(!cmdOptionsExists(argv, argv+argc, "-t") || cmdOptionsExists(argv, argv+argc, "-h"))
 	{
