@@ -12,6 +12,7 @@
 #include "std_srvs/Empty.h"
 #include <iostream>
 #include <vector>
+#include <map>
 
 class ObjectPerceptionSM
 {
@@ -51,6 +52,7 @@ private:
 	static int maxAttempts;
 	static int currentHeadPosition;
 	static std::vector<headParams> headPositions;
+	static std::map<std::string, std::string> realObjectNames;
 
 	static ros::ServiceClient srvCltEndPrepare;
 	static ros::ServiceClient srvCltEndExecute;
@@ -91,6 +93,7 @@ ros::Subscriber ObjectPerceptionSM::subBenchmarkState;
 ros::Publisher ObjectPerceptionSM::pubMessagesSaved;
 ros::Publisher ObjectPerceptionSM::pubRecordData;
 RobotKnowledge ObjectPerceptionSM::know;
+std::map<std::string, std::string> ObjectPerceptionSM::realObjectNames;
 
 /*
 * A particular constructor for your state machine
@@ -134,8 +137,19 @@ int ObjectPerceptionSM::initialState()
 	/*Initialize member variables*/
 	searchAttempt = 0;
 	currentHeadPosition = 0;
-	bestObjectFound.ns = "unknown";
+	bestObjectFound.ns = "small_white_mug";
 
+	realObjectNames["pepsi_cup"] = "pepsi cup";
+	realObjectNames["small_white_mug"] = "small white mug with yellow dots";
+	realObjectNames["coffee_mugs"] = "coffee mugs";
+	realObjectNames["black_jug"] = "black jug";
+	realObjectNames["fork"] = "fork";
+	realObjectNames["knife"] = "knife";
+	realObjectNames["yellow_box"] = "yellow box";
+	realObjectNames["pink_box"] = "pink box";
+	realObjectNames["gold_frame"] = "gold color frame";
+	realObjectNames["black_frame"] = "black color frame";
+	
 	////head positions to find the object
 	//headPositions.push_back(headParams(0.0,-0.8));
 	//headPositions.push_back(headParams(0.3,-0.8));
@@ -244,8 +258,8 @@ int ObjectPerceptionSM::reportResult()
 	std::cout << "Calling end_execute service..." << std::endl;
 
 	roah_rsbb_comm_ros::ResultHOPF objResult;
-	objResult.request.object_name = bestObjectFound.ns;
-	objResult.request.object_class = know.objectDictionary[bestObjectFound.ns];
+	objResult.request.object_name = realObjectNames[bestObjectFound.ns];
+	objResult.request.object_class = know.objectDictionary[realObjectNames[bestObjectFound.ns]];
 	geometry_msgs::Pose2D pose;
 	pose.x = bestObjectFound.pose.position.x;
 	pose.y = bestObjectFound.pose.position.y;
@@ -253,7 +267,7 @@ int ObjectPerceptionSM::reportResult()
 	objResult.request.object_pose = pose;
 
 	srvCltEndExecute.call(objResult);
-	std::cout << "FOUND OBJECT NAME: " << bestObjectFound.ns <<  std::endl;
+	std::cout << "FOUND OBJECT REPORT: " << objResult.request <<  std::endl;
 	//return (int)FinalState;
 	return (int)WaitForInitCommand;
 }

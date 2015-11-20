@@ -6,16 +6,16 @@
 */
 RobotKnowledge::RobotKnowledge()
 {
-	objectDictionary["large_black_mug"] = "Mugs";
-	objectDictionary["small_white_mug"] = "Mugs";
-	objectDictionary["coffe_mugs"] = "Mugs";
-	objectDictionary["black_jug"] = "Mugs";
+	objectDictionary["pepsi cup"] = "Mugs";
+	objectDictionary["small white mug with yellow dots"] = "Mugs";
+	objectDictionary["coffee mugs"] = "Mugs";
+	objectDictionary["black jug"] = "Mugs";
 	objectDictionary["fork"] = "Forks and Knives";
 	objectDictionary["knife"] = "Forks and Knives";
-	objectDictionary["yellow"] = "Boxes";
-	objectDictionary["pink"] = "Boxes";
-	objectDictionary["gold_color_frame"] = "Picture Frame";
-	objectDictionary["small_black_picture_frame"] = "Picture Frame";
+	objectDictionary["yellow box"] = "Boxes";
+	objectDictionary["pink box"] = "Boxes";
+	objectDictionary["gold color frame"] = "Picture Frame";
+	objectDictionary["black color frame"] = "Picture Frame";
 //	//Initialize the recognized sentences with default values
 //	recoSentenceTuple defaultRecoValue;
 //	recognizedSentences = std::vector<recoSentenceTuple>(3, defaultRecoValue);
