@@ -139,16 +139,16 @@ int ObjectPerceptionSM::initialState()
 	currentHeadPosition = 0;
 	bestObjectFound.ns = "small_white_mug";
 
-	realObjectNames["pepsi_cup"] = "pepsi cup";
-	realObjectNames["small_white_mug"] = "small white mug with yellow dots";
-	realObjectNames["coffee_mugs"] = "coffee mugs";
-	realObjectNames["black_jug"] = "black jug";
-	realObjectNames["fork"] = "fork";
-	realObjectNames["knife"] = "knife";
-	realObjectNames["yellow_box"] = "yellow box";
-	realObjectNames["pink_box"] = "pink box";
-	realObjectNames["gold_frame"] = "gold color frame";
-	realObjectNames["black_frame"] = "black color frame";
+	realObjectNames["pepsi"] = "a4";
+	realObjectNames["tazaBlanca"] = "a2";
+	realObjectNames["tazaGris"] = "a3";
+	realObjectNames["tazaNegra"] = "a1";
+	realObjectNames["fork"] = "b1";
+	realObjectNames["knife"] = "b2";
+	realObjectNames["cajaAmarilla"] = "c1";
+	realObjectNames["cajaRosa"] = "c2";
+	realObjectNames["marcoAmarillo"] = "d1";
+	realObjectNames["marcoNegro"] = "d2";
 	
 	////head positions to find the object
 	//headPositions.push_back(headParams(0.0,-0.8));
@@ -159,8 +159,8 @@ int ObjectPerceptionSM::initialState()
 	//headPositions.push_back(headParams(-0.3,-0.6));
 
 	headPositions.push_back(headParams(0.0,-0.8));
-	headPositions.push_back(headParams(0.1,-0.8));
-	headPositions.push_back(headParams(-0.1,-0.8));
+	headPositions.push_back(headParams(0.0,-0.8));
+	headPositions.push_back(headParams(0.0,-0.8));
 	maxAttempts =  headPositions.size();
 
 	return (int)WaitForInitCommand;
@@ -169,7 +169,7 @@ int ObjectPerceptionSM::initialState()
 int ObjectPerceptionSM::waitForInitCommand()
 {
 	std::cout << "waiting for prepare signal....." << std::endl;
-	if(!ros::service::waitForService("/roah_rsbb/end_prepare", 60000))
+	if(!ros::service::waitForService("/roah_rsbb/end_prepare", 300000))
 	{
 		std::cout << "RSBB NOT AVAILABLE :'(" << std::endl;
 		return (int)FinalState;
@@ -185,7 +185,7 @@ int ObjectPerceptionSM::waitForInitCommand()
 	//----------------------------------------------------------//
 
 	std::cout << "Waiting for execute signal..." << std::endl;
-	if(!ros::service::waitForService("roah_rsbb/end_execute", 60000))		 
+	if(!ros::service::waitForService("roah_rsbb/end_execute", 300000))		 
 	{
 		std::cout << "RSBB NOT AVAILABLE :'(" << std::endl;
 		return (int)FinalState;	
