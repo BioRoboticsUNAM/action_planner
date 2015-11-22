@@ -6,9 +6,11 @@
 #include "std_msgs/Float32.h"
 #include "std_msgs/Bool.h"
 #include "visualization_msgs/MarkerArray.h"
+#include "vision/vsn_findbycolor.h"
 #include "ros/console.h"
 #include "ros/ros.h"
 #include <string>
+#include <vector>
 
 class ServiceManager
 {
@@ -50,7 +52,9 @@ public:
 	*	VISION services callers
 	*/
 	bool vsnFindOnPlanes(std_msgs::String, visualization_msgs::MarkerArray&);
-	bool vsnClothesReco(std_msgs::String&);
+	bool vsnFindOnPlanes(std_msgs::String, visualization_msgs::MarkerArray&, std::vector<float> &);
+	bool vsnPersonReco(std::string&);
+	bool vsnFindByColor(std::string&);
 
 	/*
 	*	PRS-FND services callers
