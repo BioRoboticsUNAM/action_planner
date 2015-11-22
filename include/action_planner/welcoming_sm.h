@@ -14,6 +14,7 @@ private:
 	enum States
 	{
 		InitialState,
+		WaitForStartCommand,
 		WaitForBellRing,
 		RecognizeVisitor,
 		GreetVisitor,
@@ -37,6 +38,7 @@ private:
 	static ros::ServiceClient srvCltEndPrepare;
 	static ros::ServiceClient srvCltEndExecute;
 	static ros::Subscriber subBenchmarkState;
+	static ros::Publisher pubMessagesSaved;
 	static ros::Publisher pubRecordData;
 
 	/********************************************************************/
@@ -44,6 +46,7 @@ private:
 	*	ADD THE STATE FUNCTIONS YOU NEED
 	*/
 	static int fInitialState();
+	static int fWaitForStartCommand();
 	static int fWaitForBellRing();
 	static int fRecognizeVisitor();
 	static int fGreetVisitor();
@@ -54,6 +57,8 @@ private:
 	static int fMoveToInitialPosition();
 	static int fFinalState();
 	/**********************************************************************/
+
+	static void callback_benchmark_state(const roah_rsbb_comm_ros::BenchmarkState::ConstPtr& msg);
 	
 public:
 	WelcomingSM(PrimitivesTasks tasks,  ros::NodeHandle*);
@@ -63,6 +68,11 @@ public:
 PrimitivesTasks WelcomingSM::m_tasks;
 ServiceManager WelcomingSM::srv_man;
 ros::NodeHandle* WelcomingSM::node;
+ros::ServiceClient WelcomingSM::srvCltEndPrepare;
+ros::ServiceClient WelcomingSM::srvCltEndExecute;
+ros::Subscriber WelcomingSM::subBenchmarkState;
+ros::Publisher WelcomingSM::pubMessagesSaved;
+ros::Publisher WelcomingSM::pubRecordData;
 
 
 /*
@@ -77,6 +87,7 @@ WelcomingSM::WelcomingSM(PrimitivesTasks tasks, ros::NodeHandle* n)
 	//int (WelcomingSM::*
 	//add states to the state machine
 	SM.addState((int)InitialState, &fInitialState);
+	SM.addState((int)WaitForStartCommand, &fWaitForStartCommand);
 	SM.addState((int)WaitForBellRing, &fWaitForBellRing);
 	SM.addState((int)RecognizeVisitor, &fRecognizeVisitor);
 	SM.addState((int)GreetVisitor, &fGreetVisitor);
@@ -110,15 +121,27 @@ bool WelcomingSM::execute()
  int WelcomingSM::fInitialState()
 {
 	std::cout << "Initializing Welcoming Visitors SM" << std::endl;
-	return (int)WaitForBellRing;
+	return (int)WaitForStartCommand;
 }
- int WelcomingSM::fWaitForBellRing()
+
+int WelcomingSM::fWaitForStartCommand()
+{
+	std::cout << "Waiting for the door bell ring....." << std::endl;
+	std::getchar();
+	
+	//move to door 
+	mpGetClose("corridor");
+	return (int)RecognizeVisitor;
+}
+
+int WelcomingSM::fWaitForBellRing()
 {
 	std::cout << "Waiting for the door bell ring....." << std::endl;
 	std::getchar();
 	return (int)RecognizeVisitor;
 }
- int WelcomingSM::fRecognizeVisitor()
+
+int WelcomingSM::fRecognizeVisitor()
 {
 	std::cout << "Recognizing visitor using vision..." << std::endl;
 	//try to recognize Dr. Kim
