@@ -5,13 +5,34 @@ project(action_planner)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  rospy
+	roscpp
+	rospy
 	std_msgs
+	message_generation
+	# geometry_msgs
+	# visualization_msgs
+	arms
+	bbros_bridge
+	head
+	language_understanding
+	mvn_pln
+	roah_rsbb_comm_ros
+	vision
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+
+### First, we define the BOOST library
+### It will be used in future commits to enhance the project
+set(Boost_USE_STATIC_LIBS   ON)
+set(Boost_USE_MULTITHREADED ON)
+set(Boost_USE_STATIC_RUNTIME ON)
+find_package( Boost 1.40 COMPONENTS program_options system filesystem regex thread date_time REQUIRED )
+
+include_directories(
+	include
+	${catkin_INCLUDE_DIRS}
+)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -65,10 +86,11 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-#generate_messages(
-#  DEPENDENCIES
-#  std_msgs  # Or other packages containing msgs
-#)
+# generate_messages(
+#	DEPENDENCIES
+#	# vision
+#	std_msgs  # Or other packages containing msgs
+# )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -100,7 +122,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
+	INCLUDE_DIRS include
 #  LIBRARIES action_planner
 #  CATKIN_DEPENDS roscpp rospy
 #  DEPENDS system_lib
@@ -112,95 +134,40 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-# include_directories(include)
-include_directories(
-	include
-  ${catkin_INCLUDE_DIRS}
-)
+
+file(GLOB_RECURSE headers "include/action_planner/*.h*")
+file(GLOB_RECURSE sources "include/action_planner/*.c*" "src/*.c*")
+### Note: All cpp files should be HERE
+# file(GLOB_RECURSE sources "src/*.c*")
 
 ## Declare a C++ library
 # add_library(action_planner
 #   src/${PROJECT_NAME}/action_planner.cpp
 # )
 
+## Declare a C++ executable
+add_executable( action_planner_complete ${sources} ${headers} )
+
+## Specify libraries to link a library or executable target against
+target_link_libraries(
+	action_planner_complete
+	${catkin_LIBRARIES}
+	${Boost_LIBRARIES}
+)
+
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(action_planner ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Declare a C++ executable
-add_executable(
-	action_planner_complete 
-	src/action_planner_complete.cpp 
-	include/action_planner/service_manager_spgen.cpp
-	include/action_planner/service_manager_arms.cpp
-	include/action_planner/service_manager_mvnpln.cpp
-	include/action_planner/service_manager_vision.cpp
-	include/action_planner/service_manager_head.cpp
-	include/action_planner/service_manager_prsfnd.cpp
-	include/action_planner/service_manager_langund.cpp
-	include/action_planner/primitives_tasks.cpp
-	include/action_planner/robot_knowledge.cpp
-	include/action_planner/states_machines.cpp
+add_dependencies(
+	action_planner_complete
+	${${PROJECT_NAME}_EXPORTED_TARGETS}
+	${catkin_EXPORTED_TARGETS}
+	action_planner_generate_messages_cpp
 )
+
 ## Specify libraries to link a library or executable target against
-target_link_libraries(action_planner_complete
-  ${catkin_LIBRARIES}
+target_link_libraries(
+	action_planner_complete
+	${catkin_LIBRARIES}
+	${Boost_LIBRARIES}
 )
-#target_link_libraries(action_planner_node
-#	action_planner_complete
-#  ${catkin_LIBRARIES}
-#)
-## Add cmake target dependencies of the executable
-## same as for the library above
-add_dependencies(action_planner_complete action_planner_generate_messages_cpp)
-
-
-
-#############
-## Install ##
-#############
-
-# all install targets should use catkin DESTINATION variables
-# See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
-
-## Mark executable scripts (Python etc.) for installation
-## in contrast to setup.py, you can choose the destination
-# install(PROGRAMS
-#   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
-
-## Mark executables and/or libraries for installation
-# install(TARGETS action_planner action_planner_node
-#   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
-
-## Mark cpp header files for installation
-# install(DIRECTORY include/${PROJECT_NAME}/
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-#   FILES_MATCHING PATTERN "*.h"
-#   PATTERN ".svn" EXCLUDE
-# )
-
-## Mark other files for installation (e.g. launch and bag files, etc.)
-# install(FILES
-#   # myfile1
-#   # myfile2
-#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-# )
-
-#############
-## Testing ##
-#############
-
-## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_action_planner.cpp)
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
-# endif()
-
-## Add folders to be run by python nosetests
-# catkin_add_nosetests(test)

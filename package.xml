@@ -46,7 +46,27 @@
   <run_depend>roscpp</run_depend>
   <run_depend>rospy</run_depend>
   <run_depend>std_msgs</run_depend>
+  
+  <build_depend>arms</build_depend>
+  <run_depend>arms</run_depend>
 
+  <build_depend>bbros_bridge</build_depend>
+  <run_depend>bbros_bridge</run_depend>
+
+  <build_depend>head</build_depend>
+  <run_depend>head</run_depend>
+
+  <build_depend>language_understanding</build_depend>
+  <run_depend>language_understanding</run_depend>
+
+  <build_depend>mvn_pln</build_depend>
+  <run_depend>mvn_pln</run_depend>
+
+  <build_depend>roah_rsbb_comm_ros</build_depend>
+  <run_depend>roah_rsbb_comm_ros</run_depend>
+
+  <build_depend>vision</build_depend>
+  <run_depend>vision</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
