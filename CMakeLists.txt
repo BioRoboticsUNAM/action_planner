@@ -1,4 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
+include (${CMAKE_CURRENT_SOURCE_DIR}/dummy/DepCheck.cmake OPTIONAL)
+
 project(action_planner)
 
 ## Find catkin macros and libraries
@@ -9,8 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
 	rospy
 	std_msgs
 	message_generation
-	# geometry_msgs
-	# visualization_msgs
+
+	# Package Dependencies
 	arms
 	bbros_bridge
 	head
@@ -65,30 +67,20 @@ include_directories(
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+# file(GLOB MESSAGE_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/msg ${CMAKE_CURRENT_SOURCE_DIR}/msg/*.msg)
+# add_message_files(FILES ${MESSAGE_FILES})
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+# file(GLOB SERVICE_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/srv ${CMAKE_CURRENT_SOURCE_DIR}/srv/*.srv)
+# add_service_files(FILES ${SERVICE_FILES})
 
 ## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
-#   Action1.action
-#   Action2.action
-# )
+# file(GLOB ACTION_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/action ${CMAKE_CURRENT_SOURCE_DIR}/action/*.action)
+# add_action_files(FILES ${ACTION_FILES})
 
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #	DEPENDENCIES
-#	# vision
 #	std_msgs  # Or other packages containing msgs
 # )
 
