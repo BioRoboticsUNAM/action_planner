@@ -9,7 +9,6 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   roscpp
   tf
-  serial
 )
 
 ## Generate services in the 'srv' folder
