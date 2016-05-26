@@ -28,6 +28,7 @@ public:
 		KnowHome_TB,
 		Welcoming_TB,
 		GrannyAnnie_TB,
+		GPSR,
 		DefaultTest
 	};
 
