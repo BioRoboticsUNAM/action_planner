@@ -12,7 +12,6 @@ set(
 	"language_understanding"
 	"mvn_pln"
 	"roah_rsbb_comm_ros"
-	"vision"
 )
 
 foreach(DEP ${ACTION_PLANER_DEP})

@@ -1,10 +1,11 @@
 #include "action_planner/service_manager.h"
-#include "vision/vsn_findonplanes.h"
-#include "vision/vsn_personreco.h"
+//#include "vision/vsn_findonplanes.h"
+//#include "vision/vsn_personreco.h"
 
 
 bool ServiceManager::vsnFindByColor(std::string& objectName)
 {
+    /*
 	std::string service_name ("/vsn_findbycolor");
 	ros::NodeHandle n;
 	ros::ServiceClient client = n.serviceClient<vision::vsn_findbycolor>(service_name);	//create the service caller
@@ -20,6 +21,7 @@ bool ServiceManager::vsnFindByColor(std::string& objectName)
 	else
 		ROS_ERROR_STREAM_NAMED("action_planner", "an error acurred when trying to call the " << service_name << " service.");
 
+        */
 	return false;
 
 }
@@ -35,6 +37,7 @@ bool ServiceManager::vsnFindByColor(std::string& objectName)
 */
 bool ServiceManager::vsnFindOnPlanes(std_msgs::String object, visualization_msgs::MarkerArray &recognized)
 {
+    /*
 	std::string service_name ("/vsn_findonplanes");
 	ros::NodeHandle n;
 	ros::ServiceClient client = n.serviceClient<vision::vsn_findonplanes>(service_name);	//create the service caller
@@ -50,13 +53,14 @@ bool ServiceManager::vsnFindOnPlanes(std_msgs::String object, visualization_msgs
 	}
 	else
 		ROS_ERROR_STREAM_NAMED("action_planner", "an error acurred when trying to call the " << service_name << " service with parameters " << srv.request);
-
+*/
 	return false;
 }
 
 	//override by confidence
 bool ServiceManager::vsnFindOnPlanes(std_msgs::String object, visualization_msgs::MarkerArray &recognized, std::vector<float> &errors)
 {
+    /*
 	std::string service_name ("/vsn_findonplanes");
 	ros::NodeHandle n;
 	ros::ServiceClient client = n.serviceClient<vision::vsn_findonplanes>(service_name);	//create the service caller
@@ -73,7 +77,7 @@ bool ServiceManager::vsnFindOnPlanes(std_msgs::String object, visualization_msgs
 	}
 	else
 		ROS_ERROR_STREAM_NAMED("action_planner", "an error acurred when trying to call the " << service_name << " service with parameters " << srv.request);
-
+*/
 	return false;
 }
 
@@ -87,6 +91,7 @@ bool ServiceManager::vsnFindOnPlanes(std_msgs::String object, visualization_msgs
 */
 bool ServiceManager::vsnPersonReco(std::string &recognizedPersonName)
 {
+    /*
 	std::string service_name("/vsn_personreco");
 	ros::NodeHandle n;
 	ros::ServiceClient client = n.serviceClient<vision::vsn_personreco>(service_name);	//create the service caller
@@ -101,7 +106,7 @@ bool ServiceManager::vsnPersonReco(std::string &recognizedPersonName)
 	}
 	else
 		ROS_ERROR_STREAM_NAMED("action_planner", "an error acurred when trying to call the " << service_name << " service.");
-
+*/
 	
 	return false;
 }

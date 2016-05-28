@@ -6,7 +6,7 @@
 #include "std_msgs/Float32.h"
 #include "std_msgs/Bool.h"
 #include "visualization_msgs/MarkerArray.h"
-#include "vision/vsn_findbycolor.h"
+//#include "vision/vsn_findbycolor.h"
 #include "ros/console.h"
 #include "ros/ros.h"
 #include <string>
