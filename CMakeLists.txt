@@ -19,6 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
 	language_understanding
 	mvn_pln
 	roah_rsbb_comm_ros
+    robot_service_manager
 )
 
 ## System dependencies are found with CMake's conventions
