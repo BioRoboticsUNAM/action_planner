@@ -30,7 +30,7 @@ find_package(catkin REQUIRED COMPONENTS
 set(Boost_USE_STATIC_LIBS   ON)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME ON)
-find_package( Boost 1.40 COMPONENTS program_options system filesystem regex thread date_time REQUIRED )
+find_package( Boost 1.40 COMPONENTS program_options system filesystem regex thread chrono date_time REQUIRED )
 
 include_directories(
 	include
@@ -118,7 +118,7 @@ catkin_package(
 	INCLUDE_DIRS include
 #  LIBRARIES action_planner
 #  CATKIN_DEPENDS roscpp rospy
-#  DEPENDS system_lib
+  DEPENDS Boost
 )
 
 ###########
