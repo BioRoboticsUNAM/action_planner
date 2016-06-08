@@ -8,6 +8,7 @@
 #include "action_planner/robot_knowledge.h"
 #include "action_planner/service_manager.h"
 #include "action_planner/primitives_tasks.h"
+#include "action_planner/follow_guiding.h"
 #include "action_planner/gpsr.h"
 #include "ros/ros.h"
 #include "std_msgs/String.h"
@@ -58,6 +59,8 @@ RobotKnowledge::SM parseArgument(std::string taskName)
 		return RobotKnowledge::GrannyAnnie_TB;
 	else if(taskName.compare("gpsr")==0)
 		return RobotKnowledge::GPSR;
+	else if(taskName.compare("follow")==0)
+		return RobotKnowledge::Follow_TB;
 	else
 		return RobotKnowledge::DefaultTest;
 }
@@ -91,7 +94,8 @@ int main(int argc, char** argv)
 	KnowHomeSM knowSM(pt);
 	WelcomingSM welcomingSM(pt, &nh);
 	GrannyAnnieSM gaSM(pt);
-	GPSRSM gpsrSM(pt, &nh);
+	GPSRSM gpsrSM(&nh);
+	FollowGuidingSM followSM(pt);
 	DefaultSM defSM(pt);
 
 	//Execute the selected test
@@ -117,6 +121,9 @@ int main(int argc, char** argv)
 			break;
 		case RobotKnowledge::GPSR:
 			gpsrSM.execute();
+			break;
+		case RobotKnowledge::Follow_TB:
+			followSM.execute();
 			break;
 		case RobotKnowledge::DefaultTest:
 			defSM.execute();

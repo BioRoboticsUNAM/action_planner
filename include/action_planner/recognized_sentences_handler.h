@@ -13,9 +13,9 @@ namespace RecognizedSentencesHandler
 	*/
 	struct recoSentenceTuple
 	{
-		recoSentenceTuple() : hypotesis(""), confidence(0.0) {}
-		std::string hypotesis;
-		double confidence;
+		recoSentenceTuple() : hypothesis(""), confidences(0.0) {}
+		std::string hypothesis;
+		double confidences;
 	};
 	
 	/*
@@ -34,14 +34,14 @@ namespace RecognizedSentencesHandler
 	*/
 	void updateRecognizedSentences(const bbros_bridge::RecognizedSpeech::ConstPtr& recognizedSpeech)
 	{
-		int recoSpeechSize = recognizedSpeech->hypotesis.size();
+		int recoSpeechSize = recognizedSpeech->hypothesis.size();
 		if(listenSpeechReco)
 		{
 			for(int i=0; i<recoSpeechSize; i++)
 			{
 				recoSentenceTuple recoSentence;
-				recoSentence.hypotesis = recognizedSpeech->hypotesis[i];
-				recoSentence.confidence = recognizedSpeech->confidence[i];
+				recoSentence.hypothesis = recognizedSpeech->hypothesis[i];
+				recoSentence.confidences = recognizedSpeech->confidences[i];
 				recognizedSentences.push_back(recoSentence);
 			}
 			//only notify if was required (inside listen mode)
@@ -93,7 +93,7 @@ namespace RecognizedSentencesHandler
 			return false;
 		}
 
-		confidentSentence = recognizedSentences[0].hypotesis;
+		confidentSentence = recognizedSentences[0].hypothesis;
 		return true;
 	}
 
