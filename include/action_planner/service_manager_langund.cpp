@@ -20,7 +20,7 @@ bool ServiceManager::langundProcess(std::string stringToProcess, std::string &co
 	{
 		ROS_DEBUG_STREAM_NAMED("action_planner", serviceName << " service called successfully with parameters: " << srv.request);
 		conceptualDependency = srv.response.conceptual_dependency;
-		/*verify if the sentence was succesfully parsed*/
+		/*verify if the sentence was successfully parsed*/
 		if(srv.response.conceptual_dependency.compare("not_parsed") != 0)
 			return true;
 		ROS_DEBUG_STREAM_NAMED("action_planner",  " sentence not parsed correctly.");
